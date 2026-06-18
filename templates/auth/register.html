@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <a href="{{ url_for('auth.register') }}" class="close">&times;</a>
+        <div class="canvas">
+            <p style="font-size:xx-large; margin-bottom: 5px;">Trek Manager</p>
+            <p>Sign up to continue</p>
+        </div>
+        <div class="main">
+            <div class="form-body">
+                <form action="{{ url_for('auth.register') }}" method="POST">
+                    <div class="input-box">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Enter your name" maxlength="100" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Enter your email" maxlength="120" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Contact</label>
+                        <input type="tel" id="contact" name="contact" placeholder="Enter a 10-digit phone no" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="********" maxlength="128" minlength="8" required>
+                    </div>
+                    <div class="sub-links">
+                        <button type="submit">Sign up</button>
+                        <p>Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
