@@ -1,0 +1,32 @@
+ {% extends "base.html" %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('auth.login') }}" class="close">&times;</a>
+    <div class="canvas">
+        <p style="font-size:xx-large; margin-bottom:5px;">Trek Manager</p>
+        <p>Sign in to continue</p>
+    </div>
+    <div class="main">
+        <div class="form-body">
+            <form action="{{ url_for('auth.login') }}" method="POST">
+                <div class="input-box">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" maxlength="40" required>
+                </div> 
+                <div class="input-box">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="********" maxlength="128" minlength="8" required>
+                </div>
+                <div class="sub-links">
+                    <button type="submit">Sign in</button>
+                    <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}  
