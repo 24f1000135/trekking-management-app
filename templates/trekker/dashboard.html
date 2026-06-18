@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="dash-container">
+    <div class="dash-nav">
+        <p>Trekker Dashboard</p>
+        <p>Welcome, {{ session['name'] }}</p>
+    </div>
+</div> 
+{% endblock %}

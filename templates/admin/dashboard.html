@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="dash-container">
+    <div class="dash-nav">
+        <p>Welcome, {{ session['name'] }}</p>
+    </div>
+    <div class="dash-main">
+        <div>
+            <a href="{{ url_for('admin.register_staff') }}">Add Trek Staff</a>
+        </div>
+    </div>
+</div> 
+{% endblock %}
