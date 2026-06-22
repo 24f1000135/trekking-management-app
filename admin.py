@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User
+from models import db, User, Trek, Booking
 from werkzeug.security import generate_password_hash
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
@@ -14,10 +14,18 @@ def check_admin():
         flash("Unauthorised access.", "warning")
         return redirect(url_for('auth.login'))
 
-@admin.route("/dashboard")
+@admin.route("/dashboard", methods=['POST', 'GET'])
 def dashboard():
 
-    return render_template("admin/dashboard.html")
+    count_trekkers = User.query.filter_by(role="Trekker").count()
+    count_trek_staffs = User.query.filter_by(role="Staff").count()
+    count_treks = Trek.query.count()
+    count_bookings = Booking.query.count()
+        
+    return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
+                           count_trek_staffs=count_trek_staffs,
+                           count_treks=count_treks,
+                           count_bookings=count_bookings)
 
 @admin.route("/register_staff", methods=['POST', 'GET'])
 def register_staff():

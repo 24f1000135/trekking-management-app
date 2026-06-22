@@ -2,11 +2,30 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }} Dashboard</h4>
     </div>
     <div class="dash-main">
-        <div>
+        <div class="dash-stats">
+            <div class="dash-sum">
+                <p>Total Treks</p>
+                <p>{{ count_treks }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Users</p>
+                <p>{{ count_trekkers }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Staff</p>
+                <p>{{ count_trek_staffs }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Bookings</p>
+                <p>{{ count_bookings }}</p>
+            </div>
+        </div>
+        <div class="dash-action">
+            <p>Quick Actions</p>
             <a href="{{ url_for('admin.register_staff') }}">Add Trek Staff</a>
         </div>
     </div>
