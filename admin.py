@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from models import db, User, Trek, Booking
 from werkzeug.security import generate_password_hash
+from datetime import datetime
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -55,3 +56,33 @@ def register_staff():
         return redirect(url_for("admin.dashboard"))
     return render_template("admin/register_staff.html")
 
+@admin.route("/new_trek", methods=['POST', 'GET'])
+def new_trek():
+    if request.method == 'POST':
+        # staffs = User.query.filter_by(role="Staff").all()
+
+        title = request.form.get('title')
+        location = request.form.get('location')
+        difficulty = request.form.get('difficulty')
+        duration = request.form.get('duration')
+        total_slots = request.form.get('total_slots')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        status = request.form.get('status')
+
+        new_trek = Trek(title=title,
+                        location=location,
+                        difficulty=difficulty,
+                        duration=int(duration),
+                        total_slots=total_slots,
+                        available_slots=total_slots,
+                        start_date=datetime.strptime(start_date, "%Y-%m-%d"),
+                        end_date=datetime.strptime(end_date, "%Y-%m-%d"),
+                        status=status)
+        
+        db.session.add(new_trek)
+        db.session.commit()
+        flash("New trek is added.", "success")
+        return redirect(url_for("admin.dashboard"))
+
+    return render_template("admin/new_trek.html")
