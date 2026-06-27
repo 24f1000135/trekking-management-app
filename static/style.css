@@ -29,10 +29,6 @@ nav{
   font-size: 30px; 
   color: rgb(0, 0, 0); 
 }
-.nav-links{
-  display: flex;
-  font-size: 20px;
-} 
 .container{
   margin: auto;
   padding: 30px;
@@ -123,6 +119,7 @@ nav{
   flex-direction: row;
   width: 100%;
   font-size: x-large;
+  gap: 15px;
 }
 .dash-sum{
   padding: 20px;
@@ -132,8 +129,31 @@ nav{
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 } 
+.admin-dash-head{
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 .dash-action{
   margin: auto;
   border: 1px solid black;
   padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+.action-links{
+  border: 1px solid black;
+  padding: 20px;
+}
+.actions{
+  border: 2px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.trek-list{
+  border: 1px solid black;
+  padding: 20px;
 }
