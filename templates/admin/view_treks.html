@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}All Treks{% endblock %}
+{% block content %}
+    <div class="dash-container">
+        <div class="admin-dash-head">
+            <h3>All Treks</h3>
+            <a href="{{ url_for('admin.dashboard') }}">Back</a>
+        </div>
+        <div class="list-box">
+            <div class="trek-list">
+                <table>
+                    <tr>
+                        <th>Trek Name</th>
+                        <th>Location</th>
+                        <th>Difficulty</th>
+                        <th>Slots</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for trek in all_treks %}
+                    <tr>
+                        <td>{{ trek.title }}</td>
+                        <td>{{ trek.location }}</td>
+                        <td>{{ trek.difficulty }}</td>
+                        <td>{{ trek.total_slots }}</td>
+                        <td>{{ trek.status }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit Trek</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

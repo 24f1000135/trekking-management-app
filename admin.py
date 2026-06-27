@@ -23,10 +23,12 @@ def dashboard():
     count_treks = Trek.query.count()
     count_bookings = Booking.query.count()
         
+    treks = Trek.query.all()
+
     return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
                            count_trek_staffs=count_trek_staffs,
                            count_treks=count_treks,
-                           count_bookings=count_bookings)
+                           count_bookings=count_bookings, treks=treks)
 
 @admin.route("/register_staff", methods=['POST', 'GET'])
 def register_staff():
@@ -59,8 +61,6 @@ def register_staff():
 @admin.route("/new_trek", methods=['POST', 'GET'])
 def new_trek():
     if request.method == 'POST':
-        # staffs = User.query.filter_by(role="Staff").all()
-
         title = request.form.get('title')
         location = request.form.get('location')
         difficulty = request.form.get('difficulty')
@@ -86,3 +86,30 @@ def new_trek():
         return redirect(url_for("admin.dashboard"))
 
     return render_template("admin/new_trek.html")
+
+@admin.route("/edit_trek/<int:trek_id>", methods=['POST', 'GET'])
+def edit_trek(trek_id):
+    edit_trek = Trek.query.get(trek_id)
+
+    if request.method == 'POST':
+        edit_trek.title = request.form.get('title')
+        edit_trek.location = request.form.get('location')
+        edit_trek.difficulty = request.form.get('difficulty')
+        edit_trek.duration = int(request.form.get('duration'))
+        edit_trek.total_slots = request.form.get('total_slots')
+        edit_trek.start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
+        edit_trek.end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
+        edit_trek.status = request.form.get('status')
+
+        db.session.commit()
+        flash("Updated the trek details.", "success")
+        return redirect(url_for("admin.dashboard"))
+    
+    return render_template("admin/edit_trek.html", trek=edit_trek)
+
+@admin.route("/view_treks", methods=['GET'])
+def view_treks():
+    all_treks = Trek.query.all()
+
+    return render_template("admin/view_treks.html", all_treks=all_treks)
+
