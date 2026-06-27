@@ -15,7 +15,7 @@ def check_admin():
         flash("Unauthorised access.", "warning")
         return redirect(url_for('auth.login'))
 
-@admin.route("/dashboard", methods=['POST', 'GET'])
+@admin.route("/dashboard", methods=['GET'])
 def dashboard():
 
     count_trekkers = User.query.filter_by(role="Trekker").count()
@@ -74,8 +74,8 @@ def new_trek():
                         location=location,
                         difficulty=difficulty,
                         duration=int(duration),
-                        total_slots=total_slots,
-                        available_slots=total_slots,
+                        total_slots=int(total_slots),
+                        available_slots=int(total_slots),
                         start_date=datetime.strptime(start_date, "%Y-%m-%d"),
                         end_date=datetime.strptime(end_date, "%Y-%m-%d"),
                         status=status)
@@ -96,7 +96,7 @@ def edit_trek(trek_id):
         edit_trek.location = request.form.get('location')
         edit_trek.difficulty = request.form.get('difficulty')
         edit_trek.duration = int(request.form.get('duration'))
-        edit_trek.total_slots = request.form.get('total_slots')
+        edit_trek.total_slots = int(request.form.get('total_slots'))
         edit_trek.start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
         edit_trek.end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
         edit_trek.status = request.form.get('status')
