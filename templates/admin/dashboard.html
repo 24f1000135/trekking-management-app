@@ -7,6 +7,9 @@
     </div>
     <div class="dash-main">
         <div class="dash-stats">
+            <div class="admin-dash-head">
+                <p>Statistical Summary</p>
+            </div>
             <div class="dash-sum">
                 <p>Total Treks</p>
                 <p>{{ count_treks }}</p>
@@ -25,12 +28,17 @@
             </div>
         </div>
         <div class="dash-action">
-            <p>Quick Actions</p>
+            <div class="admin-dash-head">
+                <p>Quick Actions</p>
+            </div>
             <div class="action-links">
                 <a href="{{ url_for('admin.register_staff') }}">Add Trek Staff +</a>
             </div>
             <div class="action-links">
                 <a href="{{ url_for('admin.new_trek') }}">Create Trek +</a>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('admin.view_treks') }}">View Trek List</a>
             </div>
         </div>
     </div>
