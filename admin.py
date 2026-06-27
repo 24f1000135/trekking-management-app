@@ -103,7 +103,7 @@ def edit_trek(trek_id):
 
         db.session.commit()
         flash("Updated the trek details.", "success")
-        return redirect(url_for("admin.dashboard"))
+        return redirect(url_for("admin.view_treks"))
     
     return render_template("admin/edit_trek.html", trek=edit_trek)
 
