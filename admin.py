@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User, Trek, Booking
+from models import db, User, Trek, Booking, StaffProfile
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
@@ -53,6 +53,14 @@ def register_staff():
                            )
         
         db.session.add(new_staff)
+        db.session.commit()
+
+        new_staff_profile = StaffProfile(user_id=new_staff.id,
+                                         staff_status="Approved",
+                                         experience=None,
+                                         specialization="Select")
+        
+        db.session.add(new_staff_profile)
         db.session.commit()
         flash(f"{name} is registered as a new staff member successfully", "success")
         return redirect(url_for("admin.dashboard"))
@@ -122,3 +130,8 @@ def remove_trek(trek_id):
 
     return redirect(url_for("admin.view_treks"))
 
+@admin.route("/view_staffs", methods=['GET'])
+def view_staffs():
+    all_staffs = User.query.filter_by(role="Staff").all()
+
+    return render_template("admin/view_staffs.html", all_staffs=all_staffs)

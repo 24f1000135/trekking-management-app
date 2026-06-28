@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}All Staffs{% endblock %}
+{% block content %}
+    <div class="dash-container">
+        <div class="admin-dash-head">
+            <h3>All Staffs</h3>
+            <a href="{{ url_for('admin.dashboard') }}">Back</a>
+        </div>
+        <div class="list-box">
+            <div class="trek-list">
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Experience</th>
+                        <th>Specialization</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for staff in all_staffs %}
+                    <tr>
+                        <td>{{ staff.id }}</td>
+                        <td>{{ staff.name }}</td>
+                        <td>{{ staff.staff_profile.experience if staff.staff_profile else '-' }}</td>
+                        <td>{{ staff.staff_profile.specialization if staff.staff_profile else '-' }}</td>
+                        <td>{{ staff.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
