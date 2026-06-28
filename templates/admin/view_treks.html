@@ -15,7 +15,7 @@
                         <th>Difficulty</th>
                         <th>Slots</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                     {% for trek in all_treks %}
                     <tr>
@@ -25,7 +25,8 @@
                         <td>{{ trek.total_slots }}</td>
                         <td>{{ trek.status }}</td>
                         <td>
-                            <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit Trek</a>
+                            <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
+                            <a href="{{ url_for('admin.remove_trek', trek_id=trek.id) }}">Remove</a>
                         </td>
                     </tr>
                     {% endfor %}

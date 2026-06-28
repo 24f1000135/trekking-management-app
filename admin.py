@@ -109,7 +109,16 @@ def edit_trek(trek_id):
 
 @admin.route("/view_treks", methods=['GET'])
 def view_treks():
-    all_treks = Trek.query.all()
+    all_treks = Trek.query.filter_by(is_removed=False).all()
 
     return render_template("admin/view_treks.html", all_treks=all_treks)
+
+@admin.route("/remove_trek/<int:trek_id>/delete", methods=['POST', 'GET'])
+def remove_trek(trek_id):
+    trek = Trek.query.get(trek_id)
+    trek.is_removed = True
+    db.session.commit()
+    flash("The trek is removed.", "success")
+
+    return redirect(url_for("admin.view_treks"))
 
