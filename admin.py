@@ -37,6 +37,8 @@ def register_staff():
         email = request.form.get('email')
         contact = request.form.get('contact')
         password = request.form.get('password')
+        experience = request.form.get('experience')
+        specialization = request.form.get('specialization')
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
@@ -57,13 +59,14 @@ def register_staff():
 
         new_staff_profile = StaffProfile(user_id=new_staff.id,
                                          staff_status="Approved",
-                                         experience=None,
-                                         specialization="Select")
+                                         experience=int(experience),
+                                         specialization=specialization)
         
         db.session.add(new_staff_profile)
         db.session.commit()
         flash(f"{name} is registered as a new staff member successfully", "success")
         return redirect(url_for("admin.dashboard"))
+    
     return render_template("admin/register_staff.html")
 
 @admin.route("/new_trek", methods=['POST', 'GET'])
