@@ -103,7 +103,7 @@ def view_staffs():
 @admin.route("/approve_staff/<int:staff_id>", methods=['POST'])
 def approve_staff(staff_id):
     staff = User.query.get(staff_id)
-    staff.staff_profile.staff_status == "Approved"
+    staff.staff_profile.staff_status = "Approved"
     db.session.commit()
     flash(f"{staff.name}'s form has been approved.", "success")
     return redirect(url_for("admin.view_staffs"))
