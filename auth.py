@@ -28,7 +28,14 @@ def login():
         if user.role == "Admin":
             return redirect(url_for("admin.dashboard"))
         elif user.role == "Staff":
-            return redirect(url_for("staff.dashboard"))
+            if user.staff_profile.staff_status == 'Pending':
+                flash("Waiting for admin aprroval.", "error")
+                return redirect(url_for("auth.login"))
+            elif user.staff_profile.staff_status == "Rejected":
+                flash("Registration was not be approved!", "error")
+                return redirect(url_for("auth.login"))
+            else:
+                return redirect(url_for("staff.dashboard"))
         else:
             return redirect(url_for("trekker.dashboard"))
 
