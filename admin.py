@@ -30,45 +30,6 @@ def dashboard():
                            count_treks=count_treks,
                            count_bookings=count_bookings, treks=treks)
 
-@admin.route("/register_staff", methods=['POST', 'GET'])
-def register_staff():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        contact = request.form.get('contact')
-        password = request.form.get('password')
-        experience = request.form.get('experience')
-        specialization = request.form.get('specialization')
-
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            flash("Email already registered.", "error")
-            return redirect(url_for("admin.register_staff"))
-
-        hashed_pass = generate_password_hash(password)
-        new_staff = User(name=name,
-                           email=email,
-                           contact=contact,
-                           role='Staff',
-                           password=hashed_pass,
-                           is_blacklisted=False
-                           )
-        
-        db.session.add(new_staff)
-        db.session.commit()
-
-        new_staff_profile = StaffProfile(user_id=new_staff.id,
-                                         staff_status="Approved",
-                                         experience=int(experience),
-                                         specialization=specialization)
-        
-        db.session.add(new_staff_profile)
-        db.session.commit()
-        flash(f"{name} is registered as a new staff member successfully", "success")
-        return redirect(url_for("admin.dashboard"))
-    
-    return render_template("admin/register_staff.html")
-
 @admin.route("/new_trek", methods=['POST', 'GET'])
 def new_trek():
     if request.method == 'POST':
@@ -138,3 +99,4 @@ def view_staffs():
     all_staffs = User.query.filter_by(role="Staff").all()
 
     return render_template("admin/view_staffs.html", all_staffs=all_staffs)
+
