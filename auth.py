@@ -1,14 +1,10 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User
+from models import db, User, StaffProfile
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth= Blueprint("auth", __name__)
 
-@auth.route("/")
-def base():
-    return render_template("base.html")
-
-@auth.route("/login", methods=['POST', 'GET'])
+@auth.route("/", methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -66,6 +62,44 @@ def register():
         return redirect(url_for("auth.login"))
     
     return render_template('auth/register.html')
+
+@auth.route("/staff_register", methods=['POST', 'GET'])
+def staff_register():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        contact = request.form.get('contact')
+        password = request.form.get('password')
+        experience = request.form.get('experience')
+        specialization = request.form.get('specialization')
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash("Email already registered. Please log in.", "error")
+            return redirect(url_for("auth.staff_register"))
+    
+        hashed_pass = generate_password_hash(password)
+        new_staff = User(name=name,
+                         email=email,
+                         contact=contact,
+                         role='Staff',
+                         password=hashed_pass,
+                         is_blacklisted=False)
+
+        db.session.add(new_staff)
+        db.session.commit()
+
+        new_staff_profile = StaffProfile(user_id=new_staff.id,
+                                         staff_status='Pending',
+                                         experience=int(experience),
+                                         specialization=specialization)
+        
+        db.session.add(new_staff_profile)
+        db.session.commit()
+        flash("Registration form submitted. Waiting for admin approval.", "success")
+        return redirect(url_for("auth.login"))
+    
+    return render_template("auth/register_staff.html")
 
 @auth.route("/dashboard")
 def dashboard():
