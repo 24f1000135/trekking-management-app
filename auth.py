@@ -18,27 +18,27 @@ def login():
         if not check_password_hash(user.password, password):
             flash("Incorrect Password", "error")
             return redirect(url_for("auth.login"))
-
-        session['user_id'] = user.id
-        session['name'] = user.name
-        session['role'] = user.role
-
-        flash(f"Welcome, {user.name}!", "success")
-
-        if user.role == "Admin":
-            return redirect(url_for("admin.dashboard"))
-        elif user.role == "Staff":
+        
+        if user.role == "Staff":
             if user.staff_profile.staff_status == 'Pending':
                 flash("Waiting for admin aprroval.", "error")
                 return redirect(url_for("auth.login"))
             elif user.staff_profile.staff_status == "Rejected":
                 flash("Registration was not be approved!", "error")
                 return redirect(url_for("auth.login"))
-            else:
-                return redirect(url_for("staff.dashboard"))
+
+        session['user_id'] = user.id
+        session['name'] = user.name
+        session['role'] = user.role
+        flash(f"Welcome, {user.name}!", "success")
+        
+        if user.role == "Admin":
+            return redirect(url_for("admin.dashboard"))
+        elif user.role == "Staff":
+            return redirect(url_for("staff.dashboard"))
         else:
             return redirect(url_for("trekker.dashboard"))
-
+        
     return render_template('auth/login.html')
 
 @auth.route("/register", methods=['POST', 'GET'])
