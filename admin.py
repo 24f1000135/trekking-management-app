@@ -107,3 +107,17 @@ def approve_staff(staff_id):
     db.session.commit()
     flash(f"{staff.name}'s form has been approved.", "success")
     return redirect(url_for("admin.view_staffs"))
+
+@admin.route("/reject_staff/<int:staff_id>", methods=['POST'])
+def reject_staff(staff_id):
+    staff = User.query.get(staff_id)
+    staff.staff_profile.staff_status = "Rejected"
+    db.session.commit()
+    flash(f"{staff.name}'s form has been rejected.", "success")
+    return redirect(url_for("admin.view_staffs"))
+
+# @admin.route("/remove_staff/<int:staff_id>", methods=['POST'])
+# def remove_staff(staff_id):
+#     staff = User.query.get(staff_id)
+#     staff.is_blac
+
