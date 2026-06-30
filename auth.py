@@ -26,6 +26,9 @@ def login():
             elif user.staff_profile.staff_status == "Rejected":
                 flash("Registration was not be approved!", "error")
                 return redirect(url_for("auth.login"))
+            elif user.staff_profile.staff_status == "Removed":
+                flash("Your account has been removed by admin.", "error")
+                return redirect(url_for("auth.login"))
 
         session['user_id'] = user.id
         session['name'] = user.name

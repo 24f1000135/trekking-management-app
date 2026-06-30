@@ -29,18 +29,22 @@
                                 <td>{{ staff.staff_profile.staff_status if staff.staff_profile else 'No Profile' }}</td>
                                 <td>
                                     {% if staff.staff_profile and staff.staff_profile.staff_status=="Pending" %}
-                                    <form action="{{ url_for('admin.approve_staff', staff_id=staff.id) }}" method="POST">
-                                        <button type="submit">Approve</button>
-                                    </form>
-                                    <form action="{{ url_for('admin.reject_staff', staff_id=staff.id) }}" method="POST">
-                                        <button type="submit">Reject</button>
-                                    </form>
+                                        <form action="{{ url_for('admin.approve_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Approve</button>
+                                        </form>
+                                        <form action="{{ url_for('admin.reject_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Reject</button>
+                                        </form>
+                                    {% endif %}
+                                    {% if staff.staff_profile and staff.staff_profile.staff_status=="Approved" %}
+                                        <form action="{{ url_for('admin.remove_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Remove</button>
+                                        </form>
                                     {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
-                    
                 </table>
             </div>
         </div>
