@@ -157,3 +157,16 @@ nav{
   border: 1px solid black;
   padding: 20px;
 }
+.trek-list table{
+  border: 1px solid black;
+  padding: 5px;
+  width: 100%;
+}
+.trek-list thead{
+  border: 1px solid black;
+  padding: 5px;
+}
+.trek-list tr{
+  border: 1px solid black;
+  padding: 5px;
+}

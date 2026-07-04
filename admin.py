@@ -124,3 +124,8 @@ def remove_staff(staff_id):
     flash(f"{staff.name} has been removed.", "success")
     return redirect(url_for("admin.view_staffs"))
 
+@admin.route("/view_trekkers", methods=['POST', 'GET'])
+def view_trekkers():
+    all_trekkers = User.query.filter_by(role="Trekker").all()
+
+    return render_template("admin/view_trekkers.html", all_trekkers=all_trekkers)

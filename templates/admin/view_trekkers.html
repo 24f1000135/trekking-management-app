@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}All Trekkers{% endblock %}
+{% block content %}
+    <div class="dash-container">
+        <div class="admin-dash-head">
+            <h3>All Trekkers</h3>
+            <a href="{{ url_for('admin.dashboard') }}">Back</a>
+        </div>
+        <div class="list-box">
+            <div class="trek-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Bookings</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trekker in all_trekkers %}
+                            <tr>
+                                <td>{{ trekker.id }}</td>
+                                <td>{{ trekker.name }}</td>
+                                <td>{{ trekker.email}}</td>
+                                <td>{{ trekker.contact }}</td>
+                                <td>{{ trekker.bookings }}</td>
+                                <td>{{ "Blacklisted" if trekker.isblacklisted else "Active" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
