@@ -137,3 +137,13 @@ def blacklist_user(user_id):
     db.session.commit()
     flash(f"{user.name}'s account is blacklisted.", "success")
     return redirect(request.referrer)
+
+@admin.route("/unblacklist_user/<int:user_id>", methods=['POST'])
+def unblacklist_user(user_id):
+    user = User.query.get(user_id)
+    user.is_blacklisted = False
+    db.session.commit()
+    flash(f"{user.name}'s account is unblacklisted.", "success")
+    return redirect(request.referrer)
+
+
