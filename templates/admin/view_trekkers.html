@@ -28,7 +28,16 @@
                                 <td>{{ trekker.email}}</td>
                                 <td>{{ trekker.contact }}</td>
                                 <td>{{ trekker.bookings }}</td>
-                                <td>{{ "Blacklisted" if trekker.isblacklisted else "Active" }}</td>
+                                <td>{{ "Blacklisted" if trekker.is_blacklisted else "Active" }}</td>
+                                {% if not trekker.is_blacklisted %}
+                                    <td>
+                                        <form action="{{ url_for('admin.blacklist_user', user_id=trekker.id) }}" method="POST">
+                                            <button type="submit">Blacklist</button>
+                                        </form>
+                                    </td>
+                                {% else %}
+                                    <td>Unblacklist</td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -129,3 +129,11 @@ def view_trekkers():
     all_trekkers = User.query.filter_by(role="Trekker").all()
 
     return render_template("admin/view_trekkers.html", all_trekkers=all_trekkers)
+
+@admin.route("/blacklist_user/<int:user_id>", methods=['POST'])
+def blacklist_user(user_id):
+    user = User.query.get(user_id)
+    user.is_blacklisted = True
+    db.session.commit()
+    flash(f"{user.name}'s account is blacklisted.", "success")
+    return redirect(request.referrer)

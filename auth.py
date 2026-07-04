@@ -14,11 +14,15 @@ def login():
         if not user:
             flash("Email not registered.", "error")
             return redirect(url_for("auth.login"))
+        
+        if user.is_blacklisted == True:
+            flash("Your account has been suspended.", "error")
+            return redirect(url_for("auth.login"))
 
         if not check_password_hash(user.password, password):
             flash("Incorrect Password", "error")
             return redirect(url_for("auth.login"))
-        
+
         if user.role == "Staff":
             if user.staff_profile.staff_status == 'Pending':
                 flash("Waiting for admin aprroval.", "error")
