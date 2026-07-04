@@ -40,6 +40,12 @@
                                         <form action="{{ url_for('admin.remove_staff', staff_id=staff.id) }}" method="POST">
                                             <button type="submit">Remove</button>
                                         </form>
+                                        {% if not staff.is_blacklisted %}
+                                            <form action="{{ url_for('admin.blacklist_user', user_id=staff.id) }}" method="POST">
+                                                <button type="submit">Blacklist</button>
+                                            </form>
+                                        {% else %}Unblacklist
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                             </tr>
