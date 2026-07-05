@@ -17,6 +17,7 @@
                         <th>Total Slots</th>
                         <th>Available Slots</th>
                         <th>Status</th>
+                        <th>Assigned Staff</th>
                         <th>Actions</th>
                     </tr>
                     {% for trek in all_treks %}
@@ -28,8 +29,10 @@
                         <td>{{ trek.total_slots }}</td>
                         <td>{{ trek.available_slots }}</td>
                         <td>{{ trek.status }}</td>
+                        <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
                         <td>
                             <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
+                            <a href="{{ url_for('admin.assign_staff', trek_id=trek.id) }}">Assign Staff</a>
                             <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" methos="POST">
                                 <button type="submit">Remove</button>
                             </form>

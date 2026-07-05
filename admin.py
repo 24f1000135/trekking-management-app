@@ -146,4 +146,18 @@ def unblacklist_user(user_id):
     flash(f"{user.name}'s account is unblacklisted.", "success")
     return redirect(request.referrer)
 
+@admin.route("/assign_staff/<int:trek_id>", methods=['POST', 'GET'])
+def assign_staff(trek_id):
+    trek = Trek.query.get(trek_id)
+    approved_staff = User.query.join(StaffProfile).filter(User.role == "Staff", StaffProfile.staff_status == "Approved").all()
+
+    if request.method == 'POST':
+        staff_id = request.form.get('staff_id')
+        staff = User.query.get(int(staff_id))
+        trek.staff_id = int(staff_id) if staff_id else None
+        db.session.commit()
+        flash(f"{staff.name} is assigned to {trek.title}.", "success")
+        return redirect(url_for("admin.view_treks"))
+    
+    return render_template("admin/assign_staff.html", trek=trek, approved_staff=approved_staff)
 
