@@ -30,7 +30,9 @@
                         <td>{{ trek.status }}</td>
                         <td>
                             <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
-                            <a href="{{ url_for('admin.remove_trek', trek_id=trek.id) }}">Remove</a>
+                            <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" methos="POST">
+                                <button type="submit">Remove</button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
