@@ -12,8 +12,10 @@
                     <tr>
                         <th>Trek Name</th>
                         <th>Location</th>
+                        <th>Duration</th>
                         <th>Difficulty</th>
-                        <th>Slots</th>
+                        <th>Total Slots</th>
+                        <th>Available Slots</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -21,8 +23,10 @@
                     <tr>
                         <td>{{ trek.title }}</td>
                         <td>{{ trek.location }}</td>
+                        <td>{{ trek.duration }}</td>
                         <td>{{ trek.difficulty }}</td>
                         <td>{{ trek.total_slots }}</td>
+                        <td>{{ trek.available_slots }}</td>
                         <td>{{ trek.status }}</td>
                         <td>
                             <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
