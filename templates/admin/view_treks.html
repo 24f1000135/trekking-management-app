@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}All Treks{% endblock %}
+{% block content %}
+    <div class="dash-container">
+        <div class="admin-dash-head">
+            <h3>All Treks</h3>
+            <a href="{{ url_for('admin.dashboard') }}">Back</a>
+        </div>
+        <div class="search-box">
+            <form action="{{ url_for('admin.view_treks') }}" method="GET">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by trek name or ID">
+                <button type="submit">Search</button>
+                {% if search %}
+                    <a href="{{ url_for('admin.view_treks') }}">Clear</a>
+                {% endif %}
+            </form>
+            {% if search %}
+                <p>Results for "{{ search }}" — {{ all_treks|length }} found</p>
+            {% endif %}
+        </div>
+        <div class="list-box">
+            <div class="trek-list">
+                <table>
+                    <tr>
+                        <th>Trek Name</th>
+                        <th>Location</th>
+                        <th>Duration</th>
+                        <th>Difficulty</th>
+                        <th>Total Slots</th>
+                        <th>Available Slots</th>
+                        <th>Status</th>
+                        <th>Assigned Staff</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for trek in all_treks %}
+                    <tr>
+                        <td>{{ trek.title }}</td>
+                        <td>{{ trek.location }}</td>
+                        <td>{{ trek.duration }}</td>
+                        <td>{{ trek.difficulty }}</td>
+                        <td>{{ trek.total_slots }}</td>
+                        <td>{{ trek.available_slots }}</td>
+                        <td>{{ trek.status }}</td>
+                        <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
+                            <a href="{{ url_for('admin.assign_staff', trek_id=trek.id) }}">Assign Staff</a>
+                            <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" method="POST">
+                                <button type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

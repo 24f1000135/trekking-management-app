@@ -15,19 +15,20 @@ nav{
   width: 100%;
 }
 .nav-bar{
+  margin: 10px auto;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: 1px solid black;
+  width: 95%;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 } 
 .nav-bar p{
   font-size: 30px; 
-  color: rgb(6, 58, 4); 
-  padding: 5px;
+  color: rgb(0, 0, 0); 
 }
-.nav-links{
-  display: flex;
-  font-size: 20px;
-} 
 .container{
   margin: auto;
   padding: 30px;
@@ -79,7 +80,7 @@ nav{
   display: flex;
 }
 .nav-item .nav-link{
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 6px;
 }
 .alert {
@@ -98,12 +99,81 @@ nav{
   border: none;
 }
 .dash-container{
-  margin: auto;
-  padding: 30px;
-  width: 800px;
+  margin: 10px auto;
+  padding: 20px;
+  width: 95%;
+  height: 100vh;
   border: 1px solid black;
   border-radius: 2px;
-  max-width: 500px;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
+}
+.dash-header{
+  border: 1px solid black;
+  padding: 10px;
+}
+.dash-stats{
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  font-size: x-large;
+  gap: 15px;
+}
+.dash-sum{
+  padding: 20px;
+  flex: 1;
+  text-align: center;
+  border: 1px solid black;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+} 
+.admin-dash-head{
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.dash-action{
+  margin: auto;
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+.action-links{
+  border: 1px solid black;
+  padding: 20px;
+}
+.actions{
+  border: 2px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.trek-list{
+  border: 1px solid black;
+  padding: 20px;
+}
+.trek-list table{
+  border: 1px solid black;
+  padding: 5px;
+  width: 100%;
+}
+.trek-list thead{
+  border: 1px solid black;
+  padding: 5px;
+}
+.trek-list tr{
+  border: 1px solid black;
+  padding: 5px;
+}
+.search-box{
+  border: 1px solid black;
+  padding: 20px;
+}
+.search-box input{
+  width: 50%;
 }

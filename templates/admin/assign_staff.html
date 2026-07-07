@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Assign Staff{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <a href="{{ url_for('admin.view_treks') }}" class="close">&times;</a>
+        <div class="canvas">
+            <p style="font-size:xx-large; margin-bottom: 5px;">Assign Staff</p>
+            <p>{{ trek.title }}</p>
+        </div>
+        <div class="main">
+            <div class="form-body">
+                <form action="{{ url_for('admin.assign_staff', trek_id=trek.id) }}" method="POST">
+                    <div class="input-box">
+                        <label>Current Staff</label>
+                        <input value="{{ trek.manager.name if trek.manager else 'Unassigned' }}" readonly>
+                    </div>
+                    <div class="input-box">
+                        <label>Select Staff</label>
+                        <select name="staff_id" required>
+                            {% for staff in approved_staff %}
+                            <option value="{{ staff.id }}" {{ 'selected' if trek.staff_id == staff.id }}>
+                                {{ staff.name }} - {{ staff.staff_profile.specialization }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="sub-links">
+                        <button type="submit">Assign</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

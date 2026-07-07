@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}All Staffs{% endblock %}
+{% block content %}
+    <div class="dash-container">
+        <div class="admin-dash-head">
+            <h3>All Staffs</h3>
+            <a href="{{ url_for('admin.dashboard') }}">Back</a>
+        </div>
+        <div class="search-box">
+            <form action="{{ url_for('admin.view_staffs') }}" method="GET">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by trek name or ID">
+                <button type="submit">Search</button>
+                {% if search %}
+                    <a href="{{ url_for('admin.view_staffs') }}">Clear</a>
+                {% endif %}
+            </form>
+            {% if search %}
+                <p>Results for "{{ search }}" — {{ all_staffs|length }} found</p>
+            {% endif %}
+        </div>
+        <div class="list-box">
+            <div class="trek-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Experience</th>
+                            <th>Specialization</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for staff in all_staffs %}
+                            <tr>
+                                <td>{{ staff.id }}</td>
+                                <td>{{ staff.name }}</td>
+                                <td>{{ staff.staff_profile.experience if staff.staff_profile else '-' }}</td>
+                                <td>{{ staff.staff_profile.specialization if staff.staff_profile else '-' }}</td>
+                                <td>{{ staff.staff_profile.staff_status if staff.staff_profile else 'No Profile' }}</td>
+                                <td>
+                                    {% if staff.staff_profile and staff.staff_profile.staff_status=="Pending" %}
+                                        <form action="{{ url_for('admin.approve_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Approve</button>
+                                        </form>
+                                        <form action="{{ url_for('admin.reject_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Reject</button>
+                                        </form>
+                                    {% endif %}
+                                    {% if staff.staff_profile and staff.staff_profile.staff_status=="Approved" %}
+                                        <form action="{{ url_for('admin.remove_staff', staff_id=staff.id) }}" method="POST">
+                                            <button type="submit">Remove</button>
+                                        </form>
+                                        {% if not staff.is_blacklisted %}
+                                            <form action="{{ url_for('admin.blacklist_user', user_id=staff.id) }}" method="POST">
+                                                <button type="submit">Blacklist</button>
+                                            </form>
+                                        {% else %}
+                                        <form action="{{ url_for('admin.unblacklist_user', user_id=staff.id) }}" method="POST">
+                                            <button type="submit">Unblacklist</button>
+                                        </form>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -2,12 +2,47 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }} Dashboard</h4>
     </div>
     <div class="dash-main">
-        <div>
-            <a href="{{ url_for('admin.register_staff') }}">Add Trek Staff</a>
+        <div class="dash-stats">
+            <div class="admin-dash-head">
+                <p>Statistical Summary</p>
+            </div>
+            <div class="dash-sum">
+                <p>Total Treks</p>
+                <p>{{ count_treks }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Users</p>
+                <p>{{ count_trekkers }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Staff</p>
+                <p>{{ count_trek_staffs }}</p>
+            </div>
+            <div class="dash-sum">
+                <p>Bookings</p>
+                <p>{{ count_bookings }}</p>
+            </div>
+        </div>
+        <div class="dash-action">
+            <div class="admin-dash-head">
+                <p>Quick Actions</p>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('admin.new_trek') }}">Create Trek +</a>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('admin.view_treks') }}">View Trek List</a>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('admin.view_staffs') }}">View Staff List</a>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('admin.view_trekkers') }}">View Trekker List</a>
+            </div>
         </div>
     </div>
 </div> 

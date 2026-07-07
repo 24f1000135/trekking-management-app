@@ -46,6 +46,7 @@ class Trek(db.Model):
     status = db.Column(db.String(20), default="Pending")   # will track if Pending / Approved / Open / Closed / Completed
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
+    is_removed = db.Column(db.Boolean, nullable=False, default=False)
 
     staff_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)      
 

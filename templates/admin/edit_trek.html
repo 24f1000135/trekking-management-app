@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Trek{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <a href="{{ url_for('admin.view_treks') }}" class="close">&times;</a>
+        <div class="canvas">
+            <p style="font-size:xx-large; margin-bottom: 5px;">Edit Trek</p>
+        </div>
+        <div class="main">
+            <div class="form-body">
+                <form action="{{ url_for('admin.edit_trek', trek_id=trek.id) }}" method="POST">
+                    <div class="input-box">
+                        <label>Title</label>
+                        <input type="text" name="title" maxlength="100" value="{{ trek.title }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Location</label>
+                        <input type="text" name="location" value="{{ trek.location }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Difficulty</label>
+                        <select name="difficulty" required>
+                            <option value="" disabled>Select</option>
+                            <option value="Easy" {{ 'selected' if trek.difficulty=="easy"}}>Easy</option>
+                            <option value="Moderate" {{ 'selected' if trek.difficulty=="moderate" }}>Moderate</option>
+                            <option value="Hard" {{ 'selected' if trek.difficulty=="hard" }}>Hard</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label>Duration(days)</label>
+                        <input type="number" name="duration" min="1" value="{{ trek.duration }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Total Slots</label>
+                        <input type="number" name="total_slots" min="1" value="{{ trek.total_slots }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date" value="{{ trek.start_date.strftime('%Y-%m-%d') }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>End Date</label>
+                        <input type="date" name="end_date" value="{{ trek.end_date.strftime('%Y-%m-%d') }}" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="" disabled>Select</option>
+                            <option value="Open" {{ 'selected' if trek.status=="open" }}>Open</option>
+                            <option value="Pending" {{ 'selected' if trek.status=="pending" }}>Pending</option>
+                            <option value="Closed" {{ 'selected' if trek.status=="closed" }}>Closed</option>
+                        </select>
+                    </div>
+                    <div class="sub-links">
+                        <button type="submit">Update Trek</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

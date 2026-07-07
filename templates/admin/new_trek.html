@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}New Trek{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <a href="{{ url_for('admin.dashboard') }}" class="close">&times;</a>
+        <div class="canvas">
+            <p style="font-size:xx-large; margin-bottom: 5px;">New Trek</p>
+        </div>
+        <div class="main">
+            <div class="form-body">
+                <form action="{{ url_for('admin.new_trek') }}" method="POST">
+                    <div class="input-box">
+                        <label>Title</label>
+                        <input type="text" name="title" maxlength="100" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Location</label>
+                        <input type="text" name="location" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Difficulty</label>
+                        <select name="difficulty" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label>Duration(days)</label>
+                        <input type="number" name="duration" min="1" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Total Slots</label>
+                        <input type="number" name="total_slots" min="1" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date" required>
+                    </div>
+                    <div class="input-box">
+                        <label>End Date</label>
+                        <input type="date" name="end_date" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Open">Open</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <div class="sub-links">
+                        <button type="submit">Add Trek</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
