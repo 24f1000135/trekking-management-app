@@ -144,9 +144,18 @@ def remove_staff(staff_id):
 
 @admin.route("/view_trekkers", methods=['POST', 'GET'])
 def view_trekkers():
-    all_trekkers = User.query.filter_by(role="Trekker").all()
+    search = request.args.get('search', "")
+    query = User.query.filter_by(role="Trekker")
 
-    return render_template("admin/view_trekkers.html", all_trekkers=all_trekkers)
+    if search:
+        if search.isdigit():
+            query = query.filter(User.id == int(search))
+        else:
+            query = query.filter(User.name.ilike(f"%{search}%"))
+
+    all_trekkers = query.all() 
+
+    return render_template("admin/view_trekkers.html", all_trekkers=all_trekkers, search=search)
 
 @admin.route("/blacklist_user/<int:user_id>", methods=['POST'])
 def blacklist_user(user_id):
