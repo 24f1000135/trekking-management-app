@@ -188,3 +188,4 @@ def assign_staff(trek_id):
     
     return render_template("admin/assign_staff.html", trek=trek, approved_staff=approved_staff)
 
+

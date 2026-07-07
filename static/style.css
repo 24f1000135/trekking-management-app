@@ -170,3 +170,10 @@ nav{
   border: 1px solid black;
   padding: 5px;
 }
+.search-box{
+  border: 1px solid black;
+  padding: 20px;
+}
+.search-box input{
+  width: 50%;
+}
