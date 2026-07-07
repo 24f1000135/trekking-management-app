@@ -6,6 +6,18 @@
             <h3>All Treks</h3>
             <a href="{{ url_for('admin.dashboard') }}">Back</a>
         </div>
+        <div class="search-box">
+            <form action="{{ url_for('admin.view_treks') }}" method="GET">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by trek name or ID">
+                <button type="submit">Search</button>
+                {% if search %}
+                    <a href="{{ url_for('admin.view_treks') }}">Clear</a>
+                {% endif %}
+            </form>
+            {% if search %}
+                <p>Results for "{{ search }}" — {{ all_treks|length }} found</p>
+            {% endif %}
+        </div>
         <div class="list-box">
             <div class="trek-list">
                 <table>
@@ -33,7 +45,7 @@
                         <td>
                             <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
                             <a href="{{ url_for('admin.assign_staff', trek_id=trek.id) }}">Assign Staff</a>
-                            <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" methos="POST">
+                            <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" method="POST">
                                 <button type="submit">Remove</button>
                             </form>
                         </td>

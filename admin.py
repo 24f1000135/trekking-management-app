@@ -81,9 +81,18 @@ def edit_trek(trek_id):
 
 @admin.route("/view_treks", methods=['GET'])
 def view_treks():
-    all_treks = Trek.query.filter_by(is_removed=False).all()
+    search = request.args.get('search', "")
+    query = Trek.query.filter_by(is_removed=False)
 
-    return render_template("admin/view_treks.html", all_treks=all_treks)
+    if search:
+        if search.isdigit():
+            query = query.filter(Trek.id == int(search))
+        else:
+            query = query.filter(Trek.title.ilike(f"%{search}%"))
+
+    all_treks = query.all() 
+
+    return render_template("admin/view_treks.html", all_treks=all_treks, search=search)
 
 @admin.route("/remove_trek/<int:trek_id>/delete", methods=['POST', 'GET'])
 def remove_trek(trek_id):
