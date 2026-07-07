@@ -105,9 +105,18 @@ def remove_trek(trek_id):
 
 @admin.route("/view_staffs", methods=['GET'])
 def view_staffs():
-    all_staffs = User.query.filter_by(role="Staff").all()
+    search = request.args.get('search', "")
+    query = User.query.filter_by(role="Staff")
 
-    return render_template("admin/view_staffs.html", all_staffs=all_staffs)
+    if search:
+        if search.isdigit():
+            query = query.filter(User.id == int(search))
+        else:
+            query = query.filter(User.name.ilike(f"%{search}%"))
+
+    all_staffs = query.all() 
+
+    return render_template("admin/view_staffs.html", all_staffs=all_staffs, search=search)
 
 @admin.route("/approve_staff/<int:staff_id>", methods=['POST'])
 def approve_staff(staff_id):

@@ -6,6 +6,18 @@
             <h3>All Staffs</h3>
             <a href="{{ url_for('admin.dashboard') }}">Back</a>
         </div>
+        <div class="search-box">
+            <form action="{{ url_for('admin.view_staffs') }}" method="GET">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by trek name or ID">
+                <button type="submit">Search</button>
+                {% if search %}
+                    <a href="{{ url_for('admin.view_staffs') }}">Clear</a>
+                {% endif %}
+            </form>
+            {% if search %}
+                <p>Results for "{{ search }}" — {{ all_staffs|length }} found</p>
+            {% endif %}
+        </div>
         <div class="list-box">
             <div class="trek-list">
                 <table>
