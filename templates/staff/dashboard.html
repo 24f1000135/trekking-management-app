@@ -2,9 +2,25 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Staff Dashboard</p>
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }}'s Dashboard</h4>
     </div>
-</div> 
+    <div class="dash-main">
+        <div class="dash-stats">
+            <div class="admin-dash-head">
+                <p>Statistical Summary</p>
+            </div>
+            <div class="dash-sum">
+                <p>Assigned Treks</p>
+                <p>{{ count_assigned_treks }}</p>
+            </div>
+        </div>
+        <div class="dash-action">
+            <div class="admin-dash-head">
+                <p>Quick Actions</p>
+            </div>
+            <div class="action-links">
+                <a href="{{ url_for('staff.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
+            </div>
+        </div>
 {% endblock %}
