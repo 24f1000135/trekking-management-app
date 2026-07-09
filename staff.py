@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User
+from models import db, User, Trek
 
 staff = Blueprint("staff", __name__, url_prefix="/staff")
 
@@ -15,6 +15,7 @@ def check_staff():
 
 @staff.route("/dashboard")
 def dashboard():
-    
-    return render_template("staff/dashboard.html")
+    count_assigned_treks = Trek.query.filter_by(staff_id=session['user_id'], is_removed=False).count()
+
+    return render_template("staff/dashboard.html", count_assigned_treks=count_assigned_treks)
 
