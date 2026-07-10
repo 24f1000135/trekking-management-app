@@ -41,3 +41,14 @@ def edit_profile(user_id):
     
     return render_template("staff/edit_profile.html", edit_staff=edit_staff)
 
+@staff.route("/update_status/<int:trek_id>", methods=['POST'])
+def update_status(trek_id):
+    trek = Trek.query.get(trek_id)
+
+    status = request.form.get('status')
+    if status:
+        trek.status = status
+        db.session.commit()
+        flash(f"{trek.title} is {status}.", "success")
+
+    return redirect(url_for("staff.dashboard"))

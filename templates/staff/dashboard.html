@@ -30,10 +30,20 @@
             {% for trek in assigned_treks %}
                 <div class="trek-box">
                     <h5>{{ trek.title }}</h5> 
+                    <p>({{ trek.status }})</p>
                     <p>Location: {{ trek.location }}</p>
-                    <p>Status: {{ trek.status }}</p>
                     <p>Total Slots: {{ trek.total_slots }} | Available Slots: {{ trek.available_slots }}</p>
                     <p>Dates: {{ trek.start_date.strftime('%d %b %Y') }} - {{ trek.end_date.strftime('%d %b %Y') }}</p>
+                    <form action="{{ url_for('staff.update_status', trek_id=trek.id) }}" method="POST">
+                        <label>Update Status:</label>
+                        <select name="status">
+                            <option value="Open" {{ 'selected' if trek.status == 'Open' }}>Open</option>
+                            <option value="Ongoing" {{ 'selected' if trek.status == 'Ongoing' }}>Ongoing</option>
+                            <option value="Closed" {{ 'selected' if trek.status == 'Closed' }}>Closed</option>
+                            <option value="Completed" {{ 'selected' if trek.status == 'Completed' }}>Completed</option>
+                        </select>
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
             {% endfor %}
         {% else %}
