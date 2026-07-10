@@ -37,9 +37,8 @@
                     <form action="{{ url_for('staff.update_status', trek_id=trek.id) }}" method="POST">
                         <label>Update Status:</label>
                         <select name="status">
-                            <option value="Open" {{ 'selected' if trek.status == 'Open' }}>Open</option>
+                            <option value="Started" {{ 'selected' if trek.status == 'Started' }}>Started</option>
                             <option value="Ongoing" {{ 'selected' if trek.status == 'Ongoing' }}>Ongoing</option>
-                            <option value="Closed" {{ 'selected' if trek.status == 'Closed' }}>Closed</option>
                             <option value="Completed" {{ 'selected' if trek.status == 'Completed' }}>Completed</option>
                         </select>
                         <button type="submit">Save</button>
