@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User, Trek
+from models import db, User, Trek, Booking
 from werkzeug.security import generate_password_hash
 
 staff = Blueprint("staff", __name__, url_prefix="/staff")
@@ -69,5 +69,10 @@ def update_slots(trek_id):
 
     return redirect(url_for("staff.dashboard"))
     
-        
+@staff.route("/registered_trekkers/<int:trek_id>", methods=['POST', 'GET'])   
+def registered_trekkers(trek_id):
+       trek = Trek.query.get(trek_id)
+       all_participants = Booking.query.filter_by(trek_id=trek.id).all()
+
+       return render_template("staff/registered_trekkers.html", all_participants=all_participants, trek=trek)
 
