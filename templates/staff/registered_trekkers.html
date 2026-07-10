@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Participants{% endblock %}
+{% block content %}
+<div class="dash-container">
+    <div class="admin-dash-head">
+        <h3>All Participants — {{ trek.title }}</h3>
+        <a href="{{ url_for('staff.dashboard') }}">Back</a>
+    </div>
+    <div class="dash-stats">
+        <div class="admin-dash-head">
+            <p>Summary</p>
+        </div>
+        <div class="dash-sum">
+            <p>Total Slots</p>
+            <p>{{ trek.total_slots }}</p>
+        </div>
+        <div class="dash-sum">
+            <p>Available Slots</p>
+            <p>{{ trek.available_slots }}</p>
+        </div>
+    </div>
+    <div class="list-box">
+        <div class="trek-list">
+            {% if all_participants %}
+            <table>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Booked On</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Action</th>
+                </tr>
+                {% for participant in all_participants %}
+                <tr>
+                    <td>{{ participant.id }}</td>
+                    <td>{{ participant.trekker.name }}</td>
+                    <td>{{ participant.trekker.email }}</td>
+                    <td>{{ participant.booking_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ participant.status }}</td>
+                    <td>{{ participant.payment_status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>No participants registered for this trek yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
