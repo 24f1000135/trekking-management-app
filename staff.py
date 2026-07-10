@@ -17,8 +17,9 @@ def check_staff():
 @staff.route("/dashboard")
 def dashboard():
     count_assigned_treks = Trek.query.filter_by(staff_id=session['user_id'], is_removed=False).count()
+    assigned_treks = Trek.query.filter_by(staff_id=session['user_id'], is_removed=False).all()
 
-    return render_template("staff/dashboard.html", count_assigned_treks=count_assigned_treks)
+    return render_template("staff/dashboard.html", count_assigned_treks=count_assigned_treks, assigned_treks=assigned_treks)
 
 @staff.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
 def edit_profile(user_id):

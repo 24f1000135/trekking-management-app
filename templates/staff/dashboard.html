@@ -5,22 +5,44 @@
     <div class="dash-header">
         <h4>{{ session['name'] }}'s Dashboard</h4>
     </div>
-    <div class="dash-main">
-        <div class="dash-stats">
-            <div class="admin-dash-head">
-                <p>Statistical Summary</p>
-            </div>
-            <div class="dash-sum">
-                <p>Assigned Treks</p>
-                <p>{{ count_assigned_treks }}</p>
-            </div>
+    <div class="dash-stats">
+        <div class="admin-dash-head">
+            <p>Statistical Summary</p>
         </div>
-        <div class="dash-action">
-            <div class="admin-dash-head">
-                <p>Quick Actions</p>
-            </div>
-            <div class="action-links">
-                <a href="{{ url_for('staff.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
-            </div>
+        <div class="dash-sum">
+            <p>Assigned Treks</p>
+            <p>{{ count_assigned_treks }}</p>
         </div>
-{% endblock %}
+    </div>
+    <div class="dash-action">
+        <div class="admin-dash-head">
+            <p>Quick Actions</p>
+        </div>
+        <div class="action-links">
+            <a href="{{ url_for('staff.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
+        </div>
+    </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Treks Assigned</p>
+        </div>
+        {% if assigned_treks %}
+            {% for trek in assigned_treks %}
+                <div class="trek-box">
+                    <h5>{{ trek.title }}</h5> 
+                    <p>Location: {{ trek.location }}</p>
+                    <p>Status: {{ trek.status }}</p>
+                    <p>Total Slots: {{ trek.total_slots }} | Available Slots: {{ trek.available_slots }}</p>
+                    <p>Dates: {{ trek.start_date.strftime('%d %b %Y') }} - {{ trek.end_date.strftime('%d %b %Y') }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="trek-box">
+                <p> Waiting for admin to assign a trek.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>       
+{% endblock %} 
+
+
