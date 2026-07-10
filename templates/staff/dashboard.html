@@ -44,6 +44,11 @@
                         </select>
                         <button type="submit">Save</button>
                     </form>
+                    <form action="{{ url_for('staff.update_slots', trek_id=trek.id) }}" method="POST">
+                        <label>Update Slots:</label>
+                        <input type="number" name="available_slots" value="{{ trek.available_slots }}" min="0" max="{{ trek.total_slots }}">
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
             {% endfor %}
         {% else %}

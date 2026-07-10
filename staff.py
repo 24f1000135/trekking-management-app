@@ -52,3 +52,22 @@ def update_status(trek_id):
         flash(f"{trek.title} is {status}.", "success")
 
     return redirect(url_for("staff.dashboard"))
+
+@staff.route("/update_slots/<int:trek_id>", methods=['POST'])
+def update_slots(trek_id):
+    trek = Trek.query.get(trek_id)
+
+    available_slots = request.form.get('available_slots')
+    if available_slots:
+        slots = int(available_slots)
+        if (slots > trek.total_slots):
+            flash("Available slots cannot be more than total slots.", "error")
+            return redirect(url_for("staff.dashboard"))
+        trek.available_slots = slots
+    db.session.commit()
+    flash(f"{trek.title}'s slots are updated", "success")
+
+    return redirect(url_for("staff.dashboard"))
+    
+        
+
