@@ -43,7 +43,7 @@ class Trek(db.Model):
     duration = db.Column(db.Integer, nullable=False)
     total_slots = db.Column(db.Integer, nullable=False)
     available_slots = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(20), default="Pending")   # will track if Pending / Approved / Open / Closed / Completed
+    status = db.Column(db.String(20), default="Pending")   # will track Open / Closed / Completed
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     is_removed = db.Column(db.Boolean, nullable=False, default=False)
