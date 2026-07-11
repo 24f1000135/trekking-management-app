@@ -71,10 +71,13 @@ def update_slots(trek_id):
     
 @staff.route("/registered_trekkers/<int:trek_id>", methods=['POST', 'GET'])   
 def registered_trekkers(trek_id):
-       trek = Trek.query.get(trek_id)
-       all_participants = Booking.query.filter_by(trek_id=trek.id).all()
+    trek = Trek.query.get(trek_id)
+    all_participants = Booking.query.filter_by(trek_id=trek.id).all()
 
-       return render_template("staff/registered_trekkers.html", all_participants=all_participants, trek=trek)
+    count_bookings = Booking.query.filter_by(trek_id=trek.id, status="Booked").count()
+    count_cancels = Booking.query.filter_by(trek_id=trek.id, status="Cancelled").count()
+
+    return render_template("staff/registered_trekkers.html", all_participants=all_participants, trek=trek, count_bookings=count_bookings, count_cancels=count_cancels)
 
 @staff.route("/cancel_booking/<int:booking_id>")
 def cancel_booking(booking_id):

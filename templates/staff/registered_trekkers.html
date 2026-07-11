@@ -18,6 +18,14 @@
             <p>Available Slots</p>
             <p>{{ trek.available_slots }}</p>
         </div>
+        <div class="dash-sum">
+            <p>Bookings</p>
+            <p>{{ count_bookings }}</p>
+        </div>
+        <div class="dash-sum">
+            <p>Cancels</p>
+            <p>{{ count_cancels }}</p>
+        </div>
     </div>
     <div class="list-box">
         <div class="trek-list">
@@ -40,6 +48,15 @@
                     <td>{{ participant.booking_date.strftime('%d %b %Y') }}</td>
                     <td>{{ participant.status }}</td>
                     <td>{{ participant.payment_status }}</td>
+                    <td>
+                        {% if booking.status=="Booked" %}
+                            <form action="{{ url_for('staff.cancel_booking', booking_id=booking.id) }}" method="POST">
+                                <button type="submit">Cancel</button>
+                            </form>
+                        {% else %}
+                            <p>Cancelled</p>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
