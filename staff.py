@@ -76,3 +76,15 @@ def registered_trekkers(trek_id):
 
        return render_template("staff/registered_trekkers.html", all_participants=all_participants, trek=trek)
 
+@staff.route("/cancel_booking/<int:booking_id>")
+def cancel_booking(booking_id):
+    booking = Booking.query.get(booking_id)
+    trek = Trek.query.get(booking.trek_id)
+
+    if booking.status == "Booked":
+        booking.status = "Cancelled"
+        trek.available_slots += 1
+        db.session.commit()
+        flash("Booking cancelled and slot restored", "success")
+    
+    return redirect(url_for("staff.registered_trekkers", trek_id=trek.id))
