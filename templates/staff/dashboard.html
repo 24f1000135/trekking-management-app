@@ -2,9 +2,65 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Staff Dashboard</p>
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }}'s Dashboard</h4>
     </div>
-</div> 
-{% endblock %}
+    <div class="dash-stats">
+        <div class="admin-dash-head">
+            <p>Statistical Summary</p>
+        </div>
+        <div class="dash-sum">
+            <p>Assigned Treks</p>
+            <p>{{ count_assigned_treks }}</p>
+        </div>
+    </div>
+    <div class="dash-action">
+        <div class="admin-dash-head">
+            <p>Quick Actions</p>
+        </div>
+        <div class="action-links">
+            <a href="{{ url_for('staff.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
+        </div>
+    </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Treks Assigned</p>
+        </div>
+        {% if assigned_treks %}
+            {% for trek in assigned_treks %}
+                <div class="trek-box">
+                    <h5>{{ trek.title }}</h5> 
+                    <p>({{ trek.status }})</p>
+                    <p>Location: {{ trek.location }}</p>
+                    <p>Total Slots: {{ trek.total_slots }} | Available Slots: {{ trek.available_slots }}</p>
+                    <p>Dates: {{ trek.start_date.strftime('%d %b %Y') }} - {{ trek.end_date.strftime('%d %b %Y') }}</p>
+                    <form action="{{ url_for('staff.update_status', trek_id=trek.id) }}" method="POST">
+                        <label>Update Status:</label>
+                        <select name="status">
+                            <option value="Open" {{ 'selected' if trek.status == 'Open' }}>Open</option>
+                            <option value="Ongoing" {{ 'selected' if trek.status == 'Ongoing' }}>Ongoing</option>
+                            <option value="Closed" {{ 'selected' if trek.status == 'Closed' }}>Closed</option>
+                            <option value="Completed" {{ 'selected' if trek.status == 'Completed' }}>Completed</option>
+                        </select>
+                        <button type="submit">Save</button>
+                    </form>
+                    <form action="{{ url_for('staff.update_slots', trek_id=trek.id) }}" method="POST">
+                        <label>Update Slots:</label>
+                        <input type="number" name="available_slots" value="{{ trek.available_slots }}" min="0" max="{{ trek.total_slots }}">
+                        <button type="submit">Save</button>
+                    </form>
+                    <div>
+                        <a href="{{ url_for('staff.registered_trekkers', trek_id=trek.id) }}">All Participants</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="trek-box">
+                <p> Waiting for admin to assign a trek.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>       
+{% endblock %} 
+
+

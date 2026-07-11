@@ -102,7 +102,7 @@ nav{
   margin: 10px auto;
   padding: 20px;
   width: 95%;
-  height: 100vh;
+  min-height: 100vh;
   border: 1px solid black;
   border-radius: 2px;
   color: rgb(0, 0, 0);
@@ -114,15 +114,15 @@ nav{
 }
 .dash-stats{
   border: 1px solid black;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   width: 100%;
   font-size: x-large;
-  gap: 15px;
+  gap: 10px;
 }
 .dash-sum{
-  padding: 20px;
+  padding: 15px;
   flex: 1;
   text-align: center;
   border: 1px solid black;
@@ -141,32 +141,24 @@ nav{
   padding: 10px;
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 10px;
 }
 .action-links{
   border: 1px solid black;
   padding: 20px;
 }
-.actions{
-  border: 2px solid black;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
 .trek-list{
   border: 1px solid black;
   padding: 20px;
+  overflow-x: auto;
 }
 .trek-list table{
   border: 1px solid black;
   padding: 5px;
   width: 100%;
 }
-.trek-list thead{
-  border: 1px solid black;
-  padding: 5px;
-}
-.trek-list tr{
+.trek-list table th,
+.trek-list table td{
   border: 1px solid black;
   padding: 5px;
 }
@@ -176,4 +168,15 @@ nav{
 }
 .search-box input{
   width: 50%;
+}
+.treks-box{
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.trek-box{
+  border: 1px solid black;
+  padding: 10px;
 }
