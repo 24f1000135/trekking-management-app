@@ -13,6 +13,23 @@
             <a href="{{ url_for('trekker.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
         </div>
     </div>
+    <div class="search-box">
+        <form method="GET" action="{{ url_for('trekker.dashboard') }}">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search trek name">
+            <select name="difficulty">
+                <option value="">Select</option>
+                <option value="Easy" {% if difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+                <option value="Moderate" {% if difficulty == 'Moderate' %}selected{% endif %}>Moderate</option>
+                <option value="Hard" {% if difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+            </select>
+            <input type="text" name="location" value="{{ location }}" placeholder="Filter by location">
+            <button type="submit">Search</button>
+            <a href="{{ url_for('trekker.dashboard') }}">Clear</a>
+        </form>
+        {% if search or difficulty or location %}
+            <p>{{ available_treks|length }} trek(s) found</p>
+        {% endif %}
+    </div>
     <div class="treks-box">
         <div class="admin-dash-head">
             <p>Available Treks</p>
