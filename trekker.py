@@ -42,6 +42,9 @@ def edit_profile(user_id):
 @trekker.route("/book_trek/<int:trek_id>", methods=['POST'])
 def book_trek(trek_id):
     trek = Trek.query.get(trek_id)
+    if trek.available_slots <= 0:
+        flash("No slots are available for this trek.", "error")
+        return redirect(url_for('trekker.dashboard'))
 
     existing_booking = Booking.query.filter_by(trek_id=trek_id, user_id=session['user_id']).first()
     if existing_booking:
