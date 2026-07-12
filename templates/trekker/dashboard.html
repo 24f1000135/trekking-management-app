@@ -38,7 +38,11 @@
                         <td>{{ trek.available_slots }}</td>
                         <td>{{ trek.status }}</td>
                         <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
-                        
+                        <td>
+                            <form action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}" method="POST">
+                                <button type="submit">Book</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
             </table>
