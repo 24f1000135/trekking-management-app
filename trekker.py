@@ -16,10 +16,22 @@ def check_trekker():
 
 @trekker.route("/dashboard")
 def dashboard():
-    available_treks = Trek.query.filter_by(status="Open", is_removed=False).all()
+    search   = request.args.get('search', '')
+    difficulty = request.args.get('difficulty', '')
+    location   = request.args.get('location', '')
+    query = Trek.query.filter_by(status="Open", is_removed=False)
+
+    if search:
+        query = query.filter(Trek.title.ilike(f"%{search}%"))
+    if difficulty:
+        query = query.filter_by(difficulty=difficulty)
+    if location:
+        query = query.filter(Trek.location.ilike(f"%{location}%"))
+
+    available_treks = query.all()
     booked_treks = Booking.query.filter_by(user_id=session['user_id'], status="Booked").all()
 
-    return render_template("trekker/dashboard.html", available_treks=available_treks, booked_treks=booked_treks)
+    return render_template("trekker/dashboard.html", available_treks=available_treks, booked_treks=booked_treks, search=search, difficulty=difficulty, location=location)
 
 @trekker.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
 def edit_profile(user_id):
