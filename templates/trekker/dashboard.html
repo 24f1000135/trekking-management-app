@@ -2,9 +2,16 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Trekker Dashboard</p>
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }}'s Dashboard</h4>
+    </div>
+    <div class="dash-action">
+        <div class="admin-dash-head">
+            <p>Quick Actions</p>
+        </div>
+        <div class="action-links">
+            <a href="{{ url_for('trekker.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
+        </div>
     </div>
 </div> 
 {% endblock %}

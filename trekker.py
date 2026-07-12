@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from models import db, User
+from werkzeug.security import generate_password_hash
 
 trekker = Blueprint("trekker", __name__, url_prefix="/trekker")
 
@@ -18,4 +19,20 @@ def dashboard():
     
     return render_template("trekker/dashboard.html")
 
+@trekker.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
+def edit_profile(user_id):
+    edit_trekker = User.query.get(session['user_id'])
 
+    if request.method == "POST":
+        edit_trekker.name = request.form.get('name')
+        edit_trekker.email = request.form.get('email')
+        edit_trekker.contact = request.form.get('contact')
+        new_password = request.form.get('password')
+        if new_password:
+            edit_trekker.password = generate_password_hash(new_password)
+
+        db.session.commit()
+        flash("Your profile is updated.", "success")
+        return redirect(url_for("trekker.dashboard"))
+    
+    return render_template("trekker/edit_profile.html", edit_trekker=edit_trekker)
