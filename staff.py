@@ -79,7 +79,7 @@ def registered_trekkers(trek_id):
 
     return render_template("staff/registered_trekkers.html", all_participants=all_participants, trek=trek, count_bookings=count_bookings, count_cancels=count_cancels)
 
-@staff.route("/cancel_booking/<int:booking_id>")
+@staff.route("/cancel_booking/<int:booking_id>", methods=['POST'])
 def cancel_booking(booking_id):
     booking = Booking.query.get(booking_id)
     trek = Trek.query.get(booking.trek_id)
