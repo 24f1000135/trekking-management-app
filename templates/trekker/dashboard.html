@@ -13,5 +13,36 @@
             <a href="{{ url_for('trekker.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
         </div>
     </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Available Treks</p>
+        </div>
+        <div class="trek-list">
+            <table>
+                <tr>
+                    <th>Trek Name</th>
+                        <th>Location</th>
+                        <th>Duration</th>
+                        <th>Difficulty</th>
+                        <th>Available Slots</th>
+                        <th>Status</th>
+                        <th>Assigned Staff</th>
+                        <th>Actions</th>
+                </tr>
+                {% for trek in available_treks %}
+                    <tr>
+                        <td>{{ trek.title }}</td>
+                        <td>{{ trek.location }}</td>
+                        <td>{{ trek.duration }}</td>
+                        <td>{{ trek.difficulty }}</td>
+                        <td>{{ trek.available_slots }}</td>
+                        <td>{{ trek.status }}</td>
+                        <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+            </table>
+        </div>
+    </div>
 </div> 
 {% endblock %}

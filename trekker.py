@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-from models import db, User
+from models import db, User, Trek
 from werkzeug.security import generate_password_hash
 
 trekker = Blueprint("trekker", __name__, url_prefix="/trekker")
@@ -16,8 +16,9 @@ def check_trekker():
 
 @trekker.route("/dashboard")
 def dashboard():
-    
-    return render_template("trekker/dashboard.html")
+    available_treks = Trek.query.filter_by(status="Open", is_removed=False).all()
+
+    return render_template("trekker/dashboard.html", available_treks=available_treks)
 
 @trekker.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
 def edit_profile(user_id):
@@ -36,3 +37,7 @@ def edit_profile(user_id):
         return redirect(url_for("trekker.dashboard"))
     
     return render_template("trekker/edit_profile.html", edit_trekker=edit_trekker)
+
+
+    
+
