@@ -30,8 +30,14 @@ def dashboard():
 
     available_treks = query.all()
     booked_treks = Booking.query.filter_by(user_id=session['user_id'], status="Booked").all()
+    trekking_history = Booking.query.filter(Booking.user_id==session['user_id'], Booking.status.in_(['Completed', 'Cancelled'])).all()
 
-    return render_template("trekker/dashboard.html", available_treks=available_treks, booked_treks=booked_treks, search=search, difficulty=difficulty, location=location)
+    return render_template("trekker/dashboard.html", available_treks=available_treks,
+                            booked_treks=booked_treks, 
+                            search=search, 
+                            difficulty=difficulty, 
+                            location=location,
+                            trekking_history=trekking_history)
 
 @trekker.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
 def edit_profile(user_id):
