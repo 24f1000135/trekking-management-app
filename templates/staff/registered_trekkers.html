@@ -53,6 +53,8 @@
                             <form action="{{ url_for('staff.cancel_booking', booking_id=participant.id) }}" method="POST">
                                 <button type="submit">Cancel</button>
                             </form>
+                        {% elif participant.status == "Completed" %}
+                            <p>Completed</p>
                         {% else %}
                             <p>Cancelled</p>
                         {% endif %}
