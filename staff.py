@@ -44,7 +44,10 @@ def edit_profile(user_id):
 @staff.route("/update_status/<int:trek_id>", methods=['POST'])
 def update_status(trek_id):
     trek = Trek.query.get(trek_id)
-
+    if trek.staff_id != session['user_id']:
+        flash("You are not assigned to this trek.", "error")
+        return redirect(url_for("staff.dashboard"))
+    
     status = request.form.get('status')
     if status:
         trek.status = status
@@ -60,7 +63,10 @@ def update_status(trek_id):
 @staff.route("/update_slots/<int:trek_id>", methods=['POST'])
 def update_slots(trek_id):
     trek = Trek.query.get(trek_id)
-
+    if trek.staff_id != session['user_id']:
+        flash("You are not assigned to this trek.", "error")
+        return redirect(url_for("staff.dashboard"))
+    
     available_slots = request.form.get('available_slots')
     if available_slots:
         slots = int(available_slots)
@@ -76,6 +82,10 @@ def update_slots(trek_id):
 @staff.route("/registered_trekkers/<int:trek_id>", methods=['POST', 'GET'])   
 def registered_trekkers(trek_id):
     trek = Trek.query.get(trek_id)
+    if trek.staff_id != session['user_id']:
+        flash("You are not assigned to this trek.", "error")
+        return redirect(url_for("staff.dashboard"))
+    
     all_participants = Booking.query.filter_by(trek_id=trek.id).all()
 
     count_bookings = Booking.query.filter_by(trek_id=trek.id, status="Booked").count()
@@ -87,6 +97,9 @@ def registered_trekkers(trek_id):
 def cancel_booking(booking_id):
     booking = Booking.query.get(booking_id)
     trek = Trek.query.get(booking.trek_id)
+    if trek.staff_id != session['user_id']:
+        flash("You are not assigned to this trek.", "error")
+        return redirect(url_for("staff.dashboard"))
 
     if booking.status == "Booked":
         booking.status = "Cancelled"
