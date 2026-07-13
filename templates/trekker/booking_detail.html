@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Booking Details{% endblock %}
+{% block content %}
+<div class="dash-container">
+    <div class="admin-dash-head">
+        <h3>{{ booking.trek.title }}</h3>
+        <a href="{{ url_for('trekker.dashboard') }}">← Back</a>
+    </div>
+    <div class="treks-box">
+        <div class="trek-box">
+            <p>Location: {{ booking.trek.location }}</p>
+            <p>Difficulty: {{ booking.trek.difficulty }}</p>
+            <p>Duration: {{ booking.trek.duration }} days</p>
+            <p>Start Date: {{ booking.trek.start_date.strftime('%d %b %Y') }}</p>
+            <p>End Date: {{ booking.trek.end_date.strftime('%d %b %Y') }}</p>
+            <p>Total Slots: {{ booking.trek.total_slots }}</p>
+            <p>Available Slots: {{ booking.trek.available_slots }}</p>
+            <p>Assigned Staff: {{ booking.trek.manager.name if booking.trek.manager else "Not assigned" }}</p>
+            <p>Your Booking Status: {{ booking.status }}</p>
+            <p>Booked On: {{ booking.booking_date.strftime('%d %b %Y') }}</p>
+            <p>Payment Status: {{ booking.payment_status }}</p>
+        </div>
+    </div>   
+</div>
+{% endblock %}
