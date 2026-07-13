@@ -48,6 +48,10 @@ def update_status(trek_id):
     status = request.form.get('status')
     if status:
         trek.status = status
+        if status == "Completed":
+            active_bookings = Booking.query.filter_by(trek_id=trek_id, status="Booked").all()
+            for booking in active_bookings:
+                booking.status = "Completed"
         db.session.commit()
         flash(f"{trek.title} is {status}.", "success")
 
