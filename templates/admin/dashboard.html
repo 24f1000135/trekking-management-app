@@ -84,23 +84,19 @@
             {% if trekking_history %}
             <table>
                 <tr>
-                    <th>Trek ID</th>
-                    <th>Trek Name</th>
-                    <th>Location</th>
-                    <th>Difficulty</th>
-                    <th>Trek Date</th>
-                    <th>Slots</th>
-                    <th>Assigned Staff</th>
+                    <th>Booking ID</th>
+                    <th>Trekker</th>
+                    <th>Trek</th>
+                    <th>Booking Status</th>
+                    <th>Trek Status</th>
                 </tr>
-                {% for trek in trekking_history %}
+                {% for booking in trekking_history %}
                 <tr>
-                    <td>{{ trek.id }}</td>
-                    <td>{{ trek.title }}</td>
-                    <td>{{ trek.location }}</td>
-                    <td>{{ trek.difficulty }}</td>
-                    <td>{{ trek.start_date.strftime('%d %b %Y') }} to {{trek.end_date.strftime('%d %b %Y') }}</td>
-                    <td>{{ trek.total_slots }}</td>
-                    <td>{{ trek.manager.name }}</td>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.trekker.name }}</td>
+                    <td>{{ booking.trek.title }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.trek.status }}</td>
                 </tr>
                 {% endfor %}
             </table>

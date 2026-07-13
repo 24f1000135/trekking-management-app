@@ -27,7 +27,10 @@ def dashboard():
 
     all_bookings = Booking.query.join(Trek).join(User, Booking.user_id == User.id).all()
 
-    trekking_history = Trek.query.all()
+    trekking_history = Booking.query.join(Trek).join(User, Booking.user_id == User.id).filter(
+                            db.or_(Booking.status == "Cancelled",
+                                Booking.status == "Completed",
+                                Trek.status == "Completed")).all()
 
     return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
                            count_trek_staffs=count_trek_staffs,
