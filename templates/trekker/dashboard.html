@@ -2,9 +2,134 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <div class="dash-container">
-    <div class="dash-nav">
-        <p>Trekker Dashboard</p>
-        <p>Welcome, {{ session['name'] }}</p>
+    <div class="dash-header">
+        <h4>{{ session['name'] }}'s Dashboard</h4>
+    </div>
+    <div class="dash-action">
+        <div class="admin-dash-head">
+            <p>Quick Actions</p>
+        </div>
+        <div class="action-links">
+            <a href="{{ url_for('trekker.edit_profile', user_id=session['user_id']) }}">Update Profile</a>
+        </div>
+    </div>
+    <div class="search-box">
+        <form method="GET" action="{{ url_for('trekker.dashboard') }}">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search trek name">
+            <select name="difficulty">
+                <option value="">Select</option>
+                <option value="Easy" {% if difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+                <option value="Moderate" {% if difficulty == 'Moderate' %}selected{% endif %}>Moderate</option>
+                <option value="Hard" {% if difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+            </select>
+            <input type="text" name="location" value="{{ location }}" placeholder="Filter by location">
+            <button type="submit">Search</button>
+            <a href="{{ url_for('trekker.dashboard') }}">Clear</a>
+        </form>
+        {% if search or difficulty or location %}
+            <p>{{ available_treks|length }} trek(s) found</p>
+        {% endif %}
+    </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Available Treks</p>
+        </div>
+        <div class="trek-list">
+            <table>
+                <tr>
+                    <th>Trek Name</th>
+                        <th>Location</th>
+                        <th>Duration</th>
+                        <th>Difficulty</th>
+                        <th>Available Slots</th>
+                        <th>Status</th>
+                        <th>Assigned Staff</th>
+                        <th>Actions</th>
+                </tr>
+                {% for trek in available_treks %}
+                    <tr>
+                        <td>{{ trek.title }}</td>
+                        <td>{{ trek.location }}</td>
+                        <td>{{ trek.duration }}</td>
+                        <td>{{ trek.difficulty }}</td>
+                        <td>{{ trek.available_slots }}</td>
+                        <td>{{ trek.status }}</td>
+                        <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
+                        <td>
+                            <form action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}" method="POST">
+                                <button type="submit">Book</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>My Booked Treks</p>
+        </div>
+        <div class="trek-list">
+            {% if booked_treks %}
+            <table>
+                <tr>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Booking Date</th>
+                    <th>Payment Status</th>
+                    <th>Booking Status</th>
+                    <th>Trek Status</th>
+                    <th>Action</th>
+                </tr>
+                {% for booking in booked_treks %}
+                <tr>
+                    <td>{{ booking.trek.title }}</td>
+                    <td>{{ booking.trek.location }}</td>
+                    <td>{{ booking.booking_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ booking.payment_status }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.trek.status }}</td>
+                    <td>
+                        <a href="{{ url_for('trekker.booking_detail', booking_id=booking.id) }}">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>No treks are booked yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>My Trekking History</p>
+        </div>
+        <div class="trek-list">
+            {% if trekking_history %}
+            <table>
+                <tr>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Booking Date</th>
+                    <th>Trek Date</th>
+                    <th>Completed Date</th>
+                    <th>Status</th>
+                </tr>
+                {% for past_trek in trekking_history %}
+                <tr>
+                    <td>{{ past_trek.trek.title }}</td>
+                    <td>{{ past_trek.trek.location }}</td>
+                    <td>{{ past_trek.booking_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ past_trek.trek.start_date.strftime('%d %b %Y') }} - {{ past_trek.trek.end_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ past_trek.trek.end_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ past_trek.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>No trekking history.</p>
+            {% endif %}
+        </div>
     </div>
 </div> 
 {% endblock %}

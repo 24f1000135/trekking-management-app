@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block nav %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <a href="{{ url_for('trekker.dashboard') }}" class="close">&times;</a>
+        <div class="canvas">
+            <p style="font-size:xx-large; margin-bottom: 5px;">Edit Profile</p>
+        </div>
+        <div class="main">
+            <div class="form-body">
+                <form action="{{ url_for('trekker.edit_profile', user_id=edit_trekker.id) }}" method="POST">
+                    <div class="input-box">
+                        <label>Name</label>
+                        <input type="text" name="name" value="{{ edit_trekker.name }}" maxlength="100">
+                    </div>
+                    <div class="input-box">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ edit_trekker.email }}" maxlength="120">
+                    </div>
+                    <div class="input-box">
+                        <label>Contact</label>
+                        <input type="tel" id="contact" name="contact" value="{{ edit_trekker.contact }}" pattern="[0-9]{10}">
+                    </div>
+                    <div class="input-box">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="********" maxlength="128" minlength="8">
+                    </div>
+                    <div class="sub-links">
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
