@@ -27,11 +27,14 @@ def dashboard():
 
     all_bookings = Booking.query.join(Trek).join(User, Booking.user_id == User.id).all()
 
+    trekking_history = Trek.query.all()
+
     return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
                            count_trek_staffs=count_trek_staffs,
                            count_treks=count_treks,
                            count_bookings=count_bookings, treks=treks,
-                           all_bookings=all_bookings)
+                           all_bookings=all_bookings,
+                           trekking_history=trekking_history)
 
 @admin.route("/new_trek", methods=['POST', 'GET'])
 def new_trek():

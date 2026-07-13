@@ -76,5 +76,38 @@
             {% endif %}
         </div>
     </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Trekking History</p>
+        </div>
+        <div class="trek-list">
+            {% if trekking_history %}
+            <table>
+                <tr>
+                    <th>Trek ID</th>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Difficulty</th>
+                    <th>Trek Date</th>
+                    <th>Slots</th>
+                    <th>Assigned Staff</th>
+                </tr>
+                {% for trek in trekking_history %}
+                <tr>
+                    <td>{{ trek.id }}</td>
+                    <td>{{ trek.title }}</td>
+                    <td>{{ trek.location }}</td>
+                    <td>{{ trek.difficulty }}</td>
+                    <td>{{ trek.start_date.strftime('%d %b %Y') }} to {{trek.end_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ trek.total_slots }}</td>
+                    <td>{{ trek.manager.name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>No trekking history to show.</p>
+            {% endif %}
+        </div>
+    </div>
 </div> 
 {% endblock %}
