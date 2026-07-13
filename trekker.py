@@ -79,4 +79,10 @@ def book_trek(trek_id):
 
     return redirect(url_for("trekker.dashboard"))
     
+@trekker.route("/booking_detail/<int:booking_id>", methods=['GET'])
+def booking_detail(booking_id):
+    booking = Booking.query.get(booking_id)
+
+    return render_template("trekker/booking_detail.html", booking=booking)
+
 
