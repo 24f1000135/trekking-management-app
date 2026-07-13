@@ -85,4 +85,20 @@ def booking_detail(booking_id):
 
     return render_template("trekker/booking_detail.html", booking=booking)
 
+@trekker.route("/cancel_booking/<int:booking_id>", methods=['POST'])
+def cancel_booking(booking_id):
+    booking = Booking.query.get(booking_id)
 
+    if booking.user_id != session['user_id']:
+        flash("Unauthorised.", "error")
+        return redirect(url_for("trekker.dashboard"))
+    if booking.status != "Booked":
+        flash("This booking cannot be cancelled.", "error")
+        return redirect(url_for("trekker.dashboard"))
+
+    booking.status = "Cancelled"
+    booking.trek.available_slots += 1
+    db.session.commit()
+    flash("Booking cancelled successfully.", "success")
+
+    return redirect(url_for("trekker.dashboard"))

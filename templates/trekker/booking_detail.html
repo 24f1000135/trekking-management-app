@@ -19,6 +19,15 @@
             <p>Your Booking Status: {{ booking.status }}</p>
             <p>Booked On: {{ booking.booking_date.strftime('%d %b %Y') }}</p>
             <p>Payment Status: {{ booking.payment_status }}</p>
+            <p>
+                {% if booking.status == "Booked" %}
+                    <form action="{{ url_for('trekker.cancel_booking', booking_id=booking.id) }}" method="POST" style="display:inline;">
+                        <button type="submit">Cancel</button>
+                    </form>
+                {% else %}
+                    <p>{{ booking.status }}</p>
+                {% endif %}
+            </p>
         </div>
     </div>   
 </div>
