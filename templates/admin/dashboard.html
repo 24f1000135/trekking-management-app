@@ -45,5 +45,37 @@
             </div>
         </div>
     </div>
+    <div class="treks-box">
+        <div class="admin-dash-head">
+            <p>Booking Records</p>
+        </div>
+        <div class="trek-list">
+            {% if all_bookings %}
+            <table>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Trekker Name</th>
+                    <th>Trek Name</th>
+                    <th>Location</th>
+                    <th>Booking Date</th>
+                    <th>Payment Status</th>
+                    <th>Booking Status</th>
+                </tr>
+                {% for booking in all_bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.trekker.name }}</td>
+                    <td>{{ booking.trek.title }}</td>
+                    <td>{{ booking.booking_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ booking.payment_status }}</td>
+                    <td>{{ booking.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <p>No treks are booked yet.</p>
+            {% endif %}
+        </div>
+    </div>
 </div> 
 {% endblock %}

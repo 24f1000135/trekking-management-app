@@ -25,10 +25,13 @@ def dashboard():
         
     treks = Trek.query.all()
 
+    all_bookings = Booking.query.join(Trek).join(User, Booking.user_id == User.id).all()
+
     return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
                            count_trek_staffs=count_trek_staffs,
                            count_treks=count_treks,
-                           count_bookings=count_bookings, treks=treks)
+                           count_bookings=count_bookings, treks=treks,
+                           all_bookings=all_bookings)
 
 @admin.route("/new_trek", methods=['POST', 'GET'])
 def new_trek():
@@ -187,5 +190,7 @@ def assign_staff(trek_id):
         return redirect(url_for("admin.view_treks"))
     
     return render_template("admin/assign_staff.html", trek=trek, approved_staff=approved_staff)
+
+
 
 
