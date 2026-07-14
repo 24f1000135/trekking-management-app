@@ -25,6 +25,8 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>
                             <th>Experience</th>
                             <th>Specialization</th>
                             <th>Status</th>
@@ -36,6 +38,8 @@
                             <tr>
                                 <td>{{ staff.id }}</td>
                                 <td>{{ staff.name }}</td>
+                                <td>{{ staff.email }}</td>
+                                <td>{{ staff.contact }}</td>
                                 <td>{{ staff.staff_profile.experience if staff.staff_profile else '-' }}</td>
                                 <td>{{ staff.staff_profile.specialization if staff.staff_profile else '-' }}</td>
                                 <td>{{ staff.staff_profile.staff_status if staff.staff_profile else 'No Profile' }}</td>
