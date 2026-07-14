@@ -45,20 +45,24 @@ def new_trek():
         title = request.form.get('title')
         location = request.form.get('location')
         difficulty = request.form.get('difficulty')
-        duration = request.form.get('duration')
         total_slots = request.form.get('total_slots')
-        start_date = request.form.get('start_date')
-        end_date = request.form.get('end_date')
+        start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
+        end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
         status = request.form.get('status')
+
+        if end_date<=start_date:
+            flash("End date must be after start date.", "error")
+            return redirect(url_for("admin.new_trek"))
+        duration = (end_date-start_date).days
 
         new_trek = Trek(title=title,
                         location=location,
                         difficulty=difficulty,
-                        duration=int(duration),
                         total_slots=int(total_slots),
                         available_slots=int(total_slots),
                         start_date=datetime.strptime(start_date, "%Y-%m-%d"),
                         end_date=datetime.strptime(end_date, "%Y-%m-%d"),
+                        duration=duration,
                         status=status)
         
         db.session.add(new_trek)
@@ -76,7 +80,6 @@ def edit_trek(trek_id):
         edit_trek.title = request.form.get('title')
         edit_trek.location = request.form.get('location')
         edit_trek.difficulty = request.form.get('difficulty')
-        edit_trek.duration = int(request.form.get('duration'))
         new_total_slots = int(request.form.get('total_slots'))
         booking_count = Booking.query.filter_by(trek_id=trek_id, status="Booked").count()
         edit_trek.total_slots = new_total_slots
@@ -84,6 +87,11 @@ def edit_trek(trek_id):
         edit_trek.start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
         edit_trek.end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
         edit_trek.status = request.form.get('status')
+
+        if edit_trek.end_date<=edit_trek.start_date:
+            flash("End date must be after start date.", "error")
+            return redirect(url_for("admin.new_trek"))
+        edit_trek.duration = (edit_trek.end_date-edit_trek.start_date).days
 
         db.session.commit()
         flash("Updated the trek details.", "success")
