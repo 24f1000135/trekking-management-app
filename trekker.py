@@ -82,7 +82,9 @@ def book_trek(trek_id):
 @trekker.route("/booking_detail/<int:booking_id>", methods=['GET'])
 def booking_detail(booking_id):
     booking = Booking.query.get(booking_id)
-
+    if not booking or booking.user_id != session['user_id']:
+        flash("You are not authorised to view this booking.", "error")
+        return redirect(url_for('trekker.dashboard'))
     return render_template("trekker/booking_detail.html", booking=booking)
 
 @trekker.route("/cancel_booking/<int:booking_id>", methods=['POST'])
