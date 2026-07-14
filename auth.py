@@ -115,15 +115,6 @@ def staff_register():
     
     return render_template("auth/register_staff.html")
 
-@auth.route("/dashboard")
-def dashboard():
-    if session.get('role') == 'Admin':
-        return redirect(url_for('admin.dashboard'))
-    elif session.get('role') == 'Staff':
-        return redirect(url_for('staff.dashboard'))
-    else:
-        return redirect(url_for('trekker.dashboard'))
-
 @auth.route("/logout")
 def logout():
     session.clear()
