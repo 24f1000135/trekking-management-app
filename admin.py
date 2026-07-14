@@ -48,7 +48,6 @@ def new_trek():
         total_slots = request.form.get('total_slots')
         start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
         end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
-        status = request.form.get('status')
 
         if end_date<=start_date:
             flash("End date must be after start date.", "error")
@@ -60,10 +59,10 @@ def new_trek():
                         difficulty=difficulty,
                         total_slots=int(total_slots),
                         available_slots=int(total_slots),
-                        start_date=datetime.strptime(start_date, "%Y-%m-%d"),
-                        end_date=datetime.strptime(end_date, "%Y-%m-%d"),
+                        start_date=start_date,
+                        end_date=end_date,
                         duration=duration,
-                        status=status)
+                        status="Pending")
         
         db.session.add(new_trek)
         db.session.commit()
@@ -113,6 +112,15 @@ def view_treks():
     all_treks = query.all() 
 
     return render_template("admin/view_treks.html", all_treks=all_treks, search=search)
+
+@admin.route("/approve_trek/<int:trek_id>", methods=['POST', 'GET'])
+def approve_trek(trek_id):
+    trek = Trek.query.get(trek_id)
+    trek.status = "Approved"
+    db.session.commit()
+    flash(f"The trek is approved.", "success")
+
+    return redirect(url_for("admin.view_treks"))
 
 @admin.route("/remove_trek/<int:trek_id>/delete", methods=['POST', 'GET'])
 def remove_trek(trek_id):
