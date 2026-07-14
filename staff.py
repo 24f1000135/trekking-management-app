@@ -118,3 +118,22 @@ def cancel_booking(booking_id):
         flash("Booking cancelled and slot restored", "success")
     
     return redirect(url_for("staff.registered_trekkers", trek_id=trek.id))
+
+@staff.route("/restore_booking/<int:booking_id>", methods=['POST'])
+def restore_booking(booking_id):
+    booking = Booking.query.get(booking_id)
+    trek = Trek.query.get(booking.trek_id)
+    if trek.staff_id != session['user_id']:
+        flash("You are not assigned to this trek.", "error")
+        return redirect(url_for("staff.dashboard"))
+
+    if trek.available_slots <= 0:
+        flash("There are no available slots to restore this booking.", "error")
+        return redirect(url_for("staff.registered_trekkers", trek_id=trek.id))
+
+    booking.status = "Booked"
+    trek.available_slots -= 1
+    db.session.commit()
+    flash("Booking restored successfully.", "success")
+
+    return redirect(url_for("staff.registered_trekkers", trek_id=trek.id))
