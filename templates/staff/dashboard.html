@@ -47,11 +47,14 @@
                             <label>Update Status:</label>
                             <select name="status">
                                 {% if trek.status == "Approved" %}
+                                    <option value="">Update</option> 
                                     <option value="Open">Open</option>
                                 {% elif trek.status == "Open" %}
+                                    <option value="">Update</option>
                                     <option value="Ongoing">Ongoing</option>
                                     <option value="Closed">Closed</option>
                                 {% elif trek.status == "Ongoing" %}
+                                    <option value="">Update</option>
                                     <option value="Completed">Completed</option>
                                     <option value="Closed">Closed</option>
                                 {% endif %}
