@@ -24,10 +24,6 @@
                     <form action="{{ url_for('trekker.cancel_booking', booking_id=booking.id) }}" method="POST">
                         <button type="submit">Cancel Booking</button>
                     </form>
-                {% else %}
-                    <form action="{{ url_for('trekker.book_trek', booking_id=booking.id) }}" method="POST">
-                        <button type="submit">Book</button>
-                    </form>
                 {% endif %}
             </p>
         </div>
