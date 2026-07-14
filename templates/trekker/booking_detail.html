@@ -21,9 +21,14 @@
             <p>Payment Status: {{ booking.payment_status }}</p>
             <p>
                 {% if booking.status == "Booked" %}
-                    <form action="{{ url_for('trekker.cancel_booking', booking_id=booking.id) }}" method="POST">
+                    <form action="{{ url_for('trekker.cancel_booking', booking_id=booking.id) }}" method="POST" style="display:inline-block; margin-right: 10px;">
                         <button type="submit">Cancel Booking</button>
                     </form>
+                    {% if booking.payment_status != "Paid" %}
+                    <form action="{{ url_for('trekker.pay_booking', booking_id=booking.id) }}" method="POST" style="display:inline-block;">
+                        <button type="submit">Pay</button>
+                    </form>
+                    {% endif %}
                 {% endif %}
             </p>
         </div>
