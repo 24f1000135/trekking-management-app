@@ -198,8 +198,11 @@ def assign_staff(trek_id):
 
     if request.method == 'POST':
         staff_id = request.form.get('staff_id')
+        if not staff_id:
+            flash("Please select a staff member to assign.", "error")
+            return redirect(url_for("admin.assign_staff", trek_id=trek_id))
         staff = User.query.get(int(staff_id))
-        trek.staff_id = int(staff_id) if staff_id else None
+        trek.staff_id = int(staff_id)
         db.session.commit()
         flash(f"{staff.name} is assigned to {trek.title}.", "success")
         return redirect(url_for("admin.view_treks"))
