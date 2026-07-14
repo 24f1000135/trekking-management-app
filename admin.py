@@ -77,7 +77,10 @@ def edit_trek(trek_id):
         edit_trek.location = request.form.get('location')
         edit_trek.difficulty = request.form.get('difficulty')
         edit_trek.duration = int(request.form.get('duration'))
-        edit_trek.total_slots = int(request.form.get('total_slots'))
+        new_total_slots = int(request.form.get('total_slots'))
+        booking_count = Booking.query.filter_by(trek_id=trek_id, status="Booked").count()
+        edit_trek.total_slots = new_total_slots
+        edit_trek.available_slots = max(0, new_total_slots - booking_count)
         edit_trek.start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
         edit_trek.end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
         edit_trek.status = request.form.get('status')
