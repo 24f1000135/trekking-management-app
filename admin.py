@@ -130,6 +130,9 @@ def view_staffs():
 @admin.route("/approve_staff/<int:staff_id>", methods=['POST'])
 def approve_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Approved"
     db.session.commit()
     flash(f"{staff.name}'s form has been approved.", "success")
@@ -138,6 +141,9 @@ def approve_staff(staff_id):
 @admin.route("/reject_staff/<int:staff_id>", methods=['POST'])
 def reject_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Rejected"
     db.session.commit()
     flash(f"{staff.name}'s form has been rejected.", "success")
@@ -146,6 +152,9 @@ def reject_staff(staff_id):
 @admin.route("/remove_staff/<int:staff_id>", methods=['POST'])
 def remove_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Removed"
     db.session.commit()
     flash(f"{staff.name} has been removed.", "success")
