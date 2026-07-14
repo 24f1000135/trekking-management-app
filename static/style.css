@@ -111,6 +111,7 @@ nav{
 .dash-header{
   border: 1px solid #ccc;
   padding: 10px;
+  margin-bottom: 10px;
 }
 .dash-stats{
   border: 1px solid #ccc;
@@ -119,21 +120,21 @@ nav{
   flex-direction: row;
   width: 100%;
   font-size: x-large;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 .dash-sum{
   padding: 15px;
   flex: 1;
   text-align: center;
-  border: 1px solid #ccc;
-  color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 } 
 .admin-dash-head{
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgb(146, 173, 67);   
+  padding: 10px;
+  margin-bottom: 10px;
 }
 .dash-action{
   margin: auto;
@@ -141,7 +142,7 @@ nav{
   padding: 10px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 .action-links{
   border: 1px solid #ccc;
@@ -174,7 +175,8 @@ nav{
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  margin-bottom: 10px;
+  gap: 10px;
 }
 .trek-box{
   border: 1px solid #ccc;
