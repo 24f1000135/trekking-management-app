@@ -39,7 +39,7 @@
                                 <td>{{ trekker.name }}</td>
                                 <td>{{ trekker.email}}</td>
                                 <td>{{ trekker.contact }}</td>
-                                <td>{{ trekker.bookings }}</td>
+                                <td>{{ trekker.bookings | length }}</td>
                                 <td>{{ "Blacklisted" if trekker.is_blacklisted else "Active" }}</td>
                                 {% if not trekker.is_blacklisted %}
                                     <td>
