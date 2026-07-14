@@ -19,7 +19,17 @@ def dashboard():
     count_assigned_treks = Trek.query.filter_by(staff_id=session['user_id'], is_removed=False).count()
     assigned_treks = Trek.query.filter_by(staff_id=session['user_id'], is_removed=False).all()
 
-    return render_template("staff/dashboard.html", count_assigned_treks=count_assigned_treks, assigned_treks=assigned_treks)
+    count_participants = Booking.query.join(Trek).filter(Trek.staff_id == session['user_id'],
+                                Trek.is_removed == False, 
+                                Booking.status == "Booked").count()
+
+    count_open_treks = Trek.query.filter_by(staff_id=session['user_id'], status="Open", is_removed=False).count()
+
+    return render_template("staff/dashboard.html",
+                           count_assigned_treks=count_assigned_treks,
+                           assigned_treks=assigned_treks,
+                           count_participants=count_participants,
+                           count_open_treks=count_open_treks)
 
 @staff.route("/edit_profile/<int:user_id>", methods=['POST', 'GET'])
 def edit_profile(user_id):
