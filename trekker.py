@@ -65,7 +65,7 @@ def book_trek(trek_id):
         flash("No slots are available for this trek.", "error")
         return redirect(url_for('trekker.dashboard'))
 
-    existing_booking = Booking.query.filter_by(trek_id=trek_id, user_id=session['user_id']).first()
+    existing_booking = Booking.query.filter_by(trek_id=trek_id, user_id=session['user_id'], status="Booked").first()
     if existing_booking:
         flash("You have booked this trek already.", "error")
         return redirect(url_for('trekker.dashboard'))
