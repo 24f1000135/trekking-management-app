@@ -83,7 +83,7 @@ nav{
   color: rgb(0, 0, 0);
   padding: 6px;
 }
-.alert {
+.alert{
   position: fixed;
   top: 15px;
   left: 50%;
@@ -137,6 +137,12 @@ nav{
   margin-bottom: 10px;display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.admin-dash-head a {
+  font-size: 18px;
+  color: rgb(59, 111, 201);
+  font-weight: lighter;
+  text-decoration: none;
 }
 .dash-action{
   margin: auto;
