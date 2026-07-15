@@ -27,7 +27,10 @@ def dashboard():
 
     all_bookings = Booking.query.join(Trek).join(User, Booking.user_id == User.id).all()
 
-    trekking_history = Trek.query.all()
+    trekking_history = Booking.query.join(Trek).join(User, Booking.user_id == User.id).filter(
+                            db.or_(Booking.status == "Cancelled",
+                                Booking.status == "Completed",
+                                Trek.status == "Completed")).all()
 
     return render_template("admin/dashboard.html", count_trekkers=count_trekkers,
                            count_trek_staffs=count_trek_staffs,
@@ -42,21 +45,24 @@ def new_trek():
         title = request.form.get('title')
         location = request.form.get('location')
         difficulty = request.form.get('difficulty')
-        duration = request.form.get('duration')
         total_slots = request.form.get('total_slots')
-        start_date = request.form.get('start_date')
-        end_date = request.form.get('end_date')
-        status = request.form.get('status')
+        start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
+        end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
+
+        if end_date<=start_date:
+            flash("End date must be after start date.", "error")
+            return redirect(url_for("admin.new_trek"))
+        duration = (end_date-start_date).days + 1
 
         new_trek = Trek(title=title,
                         location=location,
                         difficulty=difficulty,
-                        duration=int(duration),
                         total_slots=int(total_slots),
                         available_slots=int(total_slots),
-                        start_date=datetime.strptime(start_date, "%Y-%m-%d"),
-                        end_date=datetime.strptime(end_date, "%Y-%m-%d"),
-                        status=status)
+                        start_date=start_date,
+                        end_date=end_date,
+                        duration=duration,
+                        status="Pending")
         
         db.session.add(new_trek)
         db.session.commit()
@@ -73,11 +79,18 @@ def edit_trek(trek_id):
         edit_trek.title = request.form.get('title')
         edit_trek.location = request.form.get('location')
         edit_trek.difficulty = request.form.get('difficulty')
-        edit_trek.duration = int(request.form.get('duration'))
-        edit_trek.total_slots = int(request.form.get('total_slots'))
+        new_total_slots = int(request.form.get('total_slots'))
+        booking_count = Booking.query.filter_by(trek_id=trek_id, status="Booked").count()
+        edit_trek.total_slots = new_total_slots
+        edit_trek.available_slots = max(0, new_total_slots - booking_count)
         edit_trek.start_date = datetime.strptime(request.form.get('start_date'), "%Y-%m-%d")
         edit_trek.end_date = datetime.strptime(request.form.get('end_date'), "%Y-%m-%d")
         edit_trek.status = request.form.get('status')
+
+        if edit_trek.end_date<=edit_trek.start_date:
+            flash("End date must be after start date.", "error")
+            return redirect(url_for("admin.edit_trek", trek_id=trek_id))
+        edit_trek.duration = (edit_trek.end_date-edit_trek.start_date).days + 1
 
         db.session.commit()
         flash("Updated the trek details.", "success")
@@ -99,6 +112,15 @@ def view_treks():
     all_treks = query.all() 
 
     return render_template("admin/view_treks.html", all_treks=all_treks, search=search)
+
+@admin.route("/approve_trek/<int:trek_id>", methods=['POST', 'GET'])
+def approve_trek(trek_id):
+    trek = Trek.query.get(trek_id)
+    trek.status = "Approved"
+    db.session.commit()
+    flash(f"The trek is approved.", "success")
+
+    return redirect(url_for("admin.view_treks"))
 
 @admin.route("/remove_trek/<int:trek_id>/delete", methods=['POST', 'GET'])
 def remove_trek(trek_id):
@@ -127,6 +149,9 @@ def view_staffs():
 @admin.route("/approve_staff/<int:staff_id>", methods=['POST'])
 def approve_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Approved"
     db.session.commit()
     flash(f"{staff.name}'s form has been approved.", "success")
@@ -135,6 +160,9 @@ def approve_staff(staff_id):
 @admin.route("/reject_staff/<int:staff_id>", methods=['POST'])
 def reject_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Rejected"
     db.session.commit()
     flash(f"{staff.name}'s form has been rejected.", "success")
@@ -143,6 +171,9 @@ def reject_staff(staff_id):
 @admin.route("/remove_staff/<int:staff_id>", methods=['POST'])
 def remove_staff(staff_id):
     staff = User.query.get(staff_id)
+    if not staff or not staff.staff_profile:
+        flash("Staff profile not found.", "error")
+        return redirect(url_for("admin.view_staffs"))
     staff.staff_profile.staff_status = "Removed"
     db.session.commit()
     flash(f"{staff.name} has been removed.", "success")
@@ -186,8 +217,11 @@ def assign_staff(trek_id):
 
     if request.method == 'POST':
         staff_id = request.form.get('staff_id')
+        if not staff_id:
+            flash("Please select a staff member to assign.", "error")
+            return redirect(url_for("admin.assign_staff", trek_id=trek_id))
         staff = User.query.get(int(staff_id))
-        trek.staff_id = int(staff_id) if staff_id else None
+        trek.staff_id = int(staff_id)
         db.session.commit()
         flash(f"{staff.name} is assigned to {trek.title}.", "success")
         return redirect(url_for("admin.view_treks"))

@@ -35,34 +35,38 @@
             <p>Available Treks</p>
         </div>
         <div class="trek-list">
-            <table>
-                <tr>
-                    <th>Trek Name</th>
-                        <th>Location</th>
-                        <th>Duration</th>
-                        <th>Difficulty</th>
-                        <th>Available Slots</th>
-                        <th>Status</th>
-                        <th>Assigned Staff</th>
-                        <th>Actions</th>
-                </tr>
-                {% for trek in available_treks %}
+            {% if available_treks %}
+                <table>
                     <tr>
-                        <td>{{ trek.title }}</td>
-                        <td>{{ trek.location }}</td>
-                        <td>{{ trek.duration }}</td>
-                        <td>{{ trek.difficulty }}</td>
-                        <td>{{ trek.available_slots }}</td>
-                        <td>{{ trek.status }}</td>
-                        <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
-                        <td>
-                            <form action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}" method="POST">
-                                <button type="submit">Book</button>
-                            </form>
-                        </td>
+                        <th>Trek Name</th>
+                            <th>Location</th>
+                            <th>Duration</th>
+                            <th>Difficulty</th>
+                            <th>Available Slots</th>
+                            <th>Status</th>
+                            <th>Assigned Staff</th>
+                            <th>Actions</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for trek in available_treks %}
+                        <tr>
+                            <td>{{ trek.title }}</td>
+                            <td>{{ trek.location }}</td>
+                            <td>{{ trek.duration }}</td>
+                            <td>{{ trek.difficulty }}</td>
+                            <td>{{ trek.available_slots }}</td>
+                            <td>{{ trek.status }}</td>
+                            <td>{{ trek.manager.name if trek.manager else "Unassigned" }}</td>
+                            <td>
+                                <form action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}" method="POST">
+                                    <button type="submit">Book</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p> No treks available at the moment.</p>
+            {% endif %}
         </div>
     </div>
     <div class="treks-box">

@@ -45,9 +45,15 @@
                         <td>
                             <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a>
                             <a href="{{ url_for('admin.assign_staff', trek_id=trek.id) }}">Assign Staff</a>
-                            <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" method="POST">
-                                <button type="submit">Remove</button>
-                            </form>
+                            {% if trek.status == "Pending" %}
+                                <form action="{{ url_for('admin.approve_trek', trek_id=trek.id) }}" method="POST">
+                                    <button type="submit">Approve</button>
+                                </form>
+                            {% else %}
+                                <form action="{{ url_for('admin.remove_trek', trek_id=trek.id) }}" method="POST">
+                                    <button type="submit">Remove</button>
+                                </form>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

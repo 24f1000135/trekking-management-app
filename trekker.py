@@ -67,7 +67,7 @@ def book_trek(trek_id):
 
     existing_booking = Booking.query.filter_by(trek_id=trek_id, user_id=session['user_id']).first()
     if existing_booking:
-        flash("You have booked this trek already.", "error")
+        flash("You can only book a trek once", "error")
         return redirect(url_for('trekker.dashboard'))
 
     book_trek = Booking(trek_id=trek_id, user_id=session['user_id'], status="Booked", payment_status="Unpaid" )
@@ -82,7 +82,45 @@ def book_trek(trek_id):
 @trekker.route("/booking_detail/<int:booking_id>", methods=['GET'])
 def booking_detail(booking_id):
     booking = Booking.query.get(booking_id)
-
+    if not booking or booking.user_id != session['user_id']:
+        flash("You are not authorised to view this booking.", "error")
+        return redirect(url_for('trekker.dashboard'))
     return render_template("trekker/booking_detail.html", booking=booking)
 
+@trekker.route("/cancel_booking/<int:booking_id>", methods=['POST'])
+def cancel_booking(booking_id):
+    booking = Booking.query.get(booking_id)
 
+    if booking.user_id != session['user_id']:
+        flash("Unauthorised.", "error")
+        return redirect(url_for("trekker.dashboard"))
+    if booking.status != "Booked":
+        flash("This booking cannot be cancelled.", "error")
+        return redirect(url_for("trekker.dashboard"))
+
+    booking.status = "Cancelled"
+    booking.trek.available_slots += 1
+    db.session.commit()
+    flash("Booking cancelled successfully.", "success")
+
+    return redirect(url_for("trekker.dashboard"))
+
+@trekker.route("/pay_booking/<int:booking_id>", methods=['POST'])
+def pay_booking(booking_id):
+    booking = Booking.query.get(booking_id)
+
+    if booking.user_id != session['user_id']:
+        flash("Unauthorised.", "error")
+        return redirect(url_for("trekker.dashboard"))
+    if booking.payment_status == "Paid":
+        flash("This booking is already paid.", "warning")
+        return redirect(url_for("trekker.booking_detail", booking_id=booking.id))
+    if booking.status != "Booked":
+        flash("Cannot pay for a cancelled or completed booking.", "error")
+        return redirect(url_for("trekker.booking_detail", booking_id=booking.id))
+
+    booking.payment_status = "Paid"
+    db.session.commit()
+    flash("Payment successful.", "success")
+
+    return redirect(url_for("trekker.booking_detail", booking_id=booking.id))

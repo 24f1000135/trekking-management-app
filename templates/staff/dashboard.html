@@ -13,6 +13,14 @@
             <p>Assigned Treks</p>
             <p>{{ count_assigned_treks }}</p>
         </div>
+        <div class="dash-sum">
+            <p>Total Participants</p>
+            <p>{{ count_participants }}</p>
+        </div>
+        <div class="dash-sum">
+            <p>Open Treks</p>
+            <p>{{ count_open_treks }}</p>
+        </div>
     </div>
     <div class="dash-action">
         <div class="admin-dash-head">
@@ -34,16 +42,26 @@
                     <p>Location: {{ trek.location }}</p>
                     <p>Total Slots: {{ trek.total_slots }} | Available Slots: {{ trek.available_slots }}</p>
                     <p>Dates: {{ trek.start_date.strftime('%d %b %Y') }} - {{ trek.end_date.strftime('%d %b %Y') }}</p>
-                    <form action="{{ url_for('staff.update_status', trek_id=trek.id) }}" method="POST">
-                        <label>Update Status:</label>
-                        <select name="status">
-                            <option value="Open" {{ 'selected' if trek.status == 'Open' }}>Open</option>
-                            <option value="Ongoing" {{ 'selected' if trek.status == 'Ongoing' }}>Ongoing</option>
-                            <option value="Closed" {{ 'selected' if trek.status == 'Closed' }}>Closed</option>
-                            <option value="Completed" {{ 'selected' if trek.status == 'Completed' }}>Completed</option>
-                        </select>
-                        <button type="submit">Save</button>
-                    </form>
+                    {% if trek.status not in ["Completed", "Closed"] %}
+                        <form action="{{ url_for('staff.update_status', trek_id=trek.id) }}" method="POST">
+                            <label>Update Status:</label>
+                            <select name="status">
+                                {% if trek.status == "Approved" %}
+                                    <option value="">Update</option> 
+                                    <option value="Open">Open</option>
+                                {% elif trek.status == "Open" %}
+                                    <option value="">Update</option>
+                                    <option value="Ongoing">Ongoing</option>
+                                    <option value="Closed">Closed</option>
+                                {% elif trek.status == "Ongoing" %}
+                                    <option value="">Update</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Closed">Closed</option>
+                                {% endif %}
+                            </select>
+                            <button type="submit">Save</button>
+                        </form>
+                    {% endif %}
                     <form action="{{ url_for('staff.update_slots', trek_id=trek.id) }}" method="POST">
                         <label>Update Slots:</label>
                         <input type="number" name="available_slots" value="{{ trek.available_slots }}" min="0" max="{{ trek.total_slots }}">

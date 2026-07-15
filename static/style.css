@@ -1,7 +1,7 @@
 *{
   margin: 0;
   padding: 0;
-  font-family: monospace;
+  font-family: 'Segoe UI', Arial, sans-serif;
   box-sizing: border-box;
 }
 body{ 
@@ -20,7 +20,7 @@ nav{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   width: 95%;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
@@ -33,7 +33,7 @@ nav{
   margin: auto;
   padding: 30px;
   width: 400px;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   border-radius: 2px;
   max-width: 500px;
   color: rgb(0, 0, 0);
@@ -50,7 +50,7 @@ nav{
   text-decoration: none;
 }
 .form-body{
-  border-top: 1px solid black;
+  border-top: 1px solid #ccc;
   padding-top: 20px;
   font-size: large;
 }
@@ -83,7 +83,7 @@ nav{
   color: rgb(0, 0, 0);
   padding: 6px;
 }
-.alert {
+.alert{
   position: fixed;
   top: 15px;
   left: 50%;
@@ -103,80 +103,89 @@ nav{
   padding: 20px;
   width: 95%;
   min-height: 100vh;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   border-radius: 2px;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 }
 .dash-header{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
+  margin-bottom: 10px;
 }
 .dash-stats{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
   display: flex;
   flex-direction: row;
   width: 100%;
   font-size: x-large;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 .dash-sum{
   padding: 15px;
   flex: 1;
   text-align: center;
-  border: 1px solid black;
-  color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 } 
 .admin-dash-head{
-  border: 1px solid black;
-  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgb(146, 173, 67);   
+  padding: 10px;
+  margin-bottom: 10px;display: flex;
   justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+}
+.admin-dash-head a {
+  font-size: 18px;
+  color: rgb(59, 111, 201);
+  font-weight: lighter;
+  text-decoration: none;
 }
 .dash-action{
   margin: auto;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 .action-links{
-  border: 1px solid black;
   padding: 20px;
 }
 .trek-list{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 20px;
   overflow-x: auto;
 }
 .trek-list table{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 5px;
   width: 100%;
 }
 .trek-list table th,
 .trek-list table td{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 5px;
 }
 .search-box{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 20px;
 }
 .search-box input{
   width: 50%;
 }
 .treks-box{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  margin-bottom: 10px;
+  gap: 10px;
 }
 .trek-box{
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
 }
