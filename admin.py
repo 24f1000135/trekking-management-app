@@ -89,7 +89,7 @@ def edit_trek(trek_id):
 
         if edit_trek.end_date<=edit_trek.start_date:
             flash("End date must be after start date.", "error")
-            return redirect(url_for("admin.edit_trek"))
+            return redirect(url_for("admin.edit_trek", trek_id=trek_id))
         edit_trek.duration = (edit_trek.end_date-edit_trek.start_date).days + 1
 
         db.session.commit()
