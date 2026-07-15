@@ -15,7 +15,7 @@ Logic: Pure Python
 2. Activate (windows): "venv\Scripts\activate"
 3. Install dependencies: "pip install -r requirements.txt"
 4. Run: "python app.py"
-5: Open browser at: "http://127.0.0.1.5000"
+5. Open browser at: "http://127.0.0.1.5000"
 
 The database will be created automatically on first run.
 
