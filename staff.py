@@ -80,8 +80,8 @@ def update_slots(trek_id):
     available_slots = request.form.get('available_slots')
     if available_slots:
         slots = int(available_slots)
-        if (slots > trek.total_slots):
-            flash("Available slots cannot be more than total slots.", "error")
+        if (slots > trek.total_slots) or (slots < 0):
+            flash("Available slots must be within total slots.", "error")
             return redirect(url_for("staff.dashboard"))
         trek.available_slots = slots
     db.session.commit()
